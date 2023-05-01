@@ -63,7 +63,7 @@ To make it easy to distinguish between diagnostics from external linters and the
 
 ### IntelliSense when using ES6 import statements in React Native
 
-Previously you did not get IntelliSense when using ES6 style import statements in **React Native** as used in the [getting started guide](https://facebook.github.io/react-native/docs/getting-started.html#quick-start).
+Previously you did not get IntelliSense when using ES6 style import statements in **React Native** as used in the [getting started guide](https://reactnative.dev/docs/getting-started).
 
 In the snippet, below you get no IntelliSense for `React`:
 
@@ -170,7 +170,6 @@ The HTML formatter is based on the **beautifyjs** library. The formatting option
 * `html.format.extraLiners`: List of tags that should have an extra newline before them.
 * `html.format.preserveNewLines`: Whether existing line breaks before elements should be preserved.
 * `html.format.maxPreserveNewLines`: Maximum number of line breaks to be preserved in one chunk.
-* `html.format.endWithNewline`: End with a newline.
 * `html.format.indentInnerHtml`: Indent `<head>` and `<body>` sections.
 
 ## Localization

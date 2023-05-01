@@ -5,7 +5,7 @@ TOCTitle: Environment variables
 PageTitle: Container environment variables
 ContentId: 031424a7-ab0e-42e0-ab7d-30a5371b9a50
 MetaDescription: Use environment variables in containers
-DateApproved: 11/4/2021
+DateApproved: 3/30/2023
 ---
 # Environment variables
 
@@ -51,7 +51,7 @@ Depending on what you reference in `devcontainer.json`:
 
     As this example illustrates, `remoteEnv` can reference both local and existing container variables.
 
-    To update variables that apply to the entire container, update (or [extend](/docs/remote/create-dev-container.md#extend-your-docker-compose-file-for-development)) your `docker-compose.yml` with the following for the appropriate service:
+    To update variables that apply to the entire container, update (or [extend](/docs/devcontainers/create-dev-container.md#extend-your-docker-compose-file-for-development)) your `docker-compose.yml` with the following for the appropriate service:
 
     ```yaml
     version: '3'
@@ -63,15 +63,15 @@ Depending on what you reference in `devcontainer.json`:
          # ...
     ```
 
-If you've already built the container and connected to it, run **Remote-Containers: Rebuild Container** from the Command Palette (`kbstyle(F1)`) to pick up the change. Otherwise run **Remote-Containers: Open Folder in Container...** to connect to the container.
+If you've already built the container and connected to it, run **Dev Containers: Rebuild Container** from the Command Palette (`kbstyle(F1)`) to pick up the change. Otherwise run **Dev Containers: Open Folder in Container...** to connect to the container.
 
 ## Option 2: Use an env file
 
-If you have a large number of environment variables that you need to set, you can use a `.env` file instead. VS Code will automatically pick up a file called `.env` in your workspace root, but you can also create one in another location.
+If you have a large number of environment variables that you need to set, you can use a `.env` file instead.
 
 First, create an environment file somewhere in your source tree. Consider this `.devcontainer/devcontainer.env` file:
 
-```text
+```
 YOUR_ENV_VAR_NAME=your-value-goes-here
 ANOTHER_ENV_VAR_NAME=your-value-goes-here
 ```
@@ -94,7 +94,9 @@ Next, depending on what you reference in `devcontainer.json`:
         # ...
   ```
 
-If you've already built the container and connected to it, run **Remote-Containers: Rebuild Container** from the Command Palette (`kbstyle(F1)`) to pick up the change. Otherwise run **Remote-Containers: Open Folder in Container...** to connect to the container.
+`docker compose` will automatically pick up a file called `.env` in the folder containing the `docker-compose.yml`, but you can also create one in another location.
+
+If you've already built the container and connected to it, run **Dev Containers: Rebuild Container** from the Command Palette (`kbstyle(F1)`) to pick up the change. Otherwise run **Dev Containers: Open Folder in Container...** to connect to the container.
 
 ### Video: Load variables from an .env file
 

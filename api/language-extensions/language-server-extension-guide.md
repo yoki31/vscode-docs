@@ -1,7 +1,7 @@
 ---
 # DO NOT TOUCH — Managed by doc writer
 ContentId: A8CBE8D6-1FEE-47BF-B81E-D79FA0DB5D03
-DateApproved: 11/4/2021
+DateApproved: 3/30/2023
 
 # Summarize the whole topic in less than 300 characters for SEO purpose
 MetaDescription: Learn how to create Language Servers to provide rich language features in Visual Studio Code.
@@ -93,19 +93,9 @@ The above installs all dependencies and opens the **lsp-sample** workspace conta
 
 ### Explaining the 'Language Client'
 
-Let's first take a look at `/package.json`, which describes the capabilities of the Language Client. There are three interesting sections:
+Let's first take a look at `/package.json`, which describes the capabilities of the Language Client. There are two interesting sections:
 
-First look the [`activationEvents`](/api/references/activation-events):
-
-```json
-"activationEvents": [
-    "onLanguage:plaintext"
-]
-```
-
-This section tells VS Code to activate the extension as soon as a plain text file is opened (for example a file with the extension `.txt`).
-
-Next look at the [`configuration`](/api/references/contribution-points#contributes.configuration) section:
+First, look at the [`configuration`](/api/references/contribution-points#contributes.configuration) section:
 
 ```json
 "configuration": {
@@ -123,6 +113,12 @@ Next look at the [`configuration`](/api/references/contribution-points#contribut
 ```
 
 This section contributes `configuration` settings to VS Code. The example will explain how these settings are sent over to the language server on startup and on every change of the settings.
+
+
+> **Note**: If your extension is compatible with VS Code versions prior to 1.74.0, you must declare `onLanguage:plaintext` in the [`activationEvents`](/api/references/activation-events)  field of `/package.json` to tell VS Code to activate the extension as soon as a plain text file is opened (for example a file with the extension `.txt`):
+> ```json
+> "activationEvents": []
+> ```
 
 The actual Language Client source code and the corresponding `package.json` are in the `/client` folder. The interesting part in the `/client/package.json` file is that it references the `vscode` extension host API through the `engines` field and adds a dependency to the `vscode-languageclient` library:
 
@@ -217,7 +213,7 @@ The source code for the Language Server is at `/server`. The interesting section
 
 This pulls in the `vscode-languageserver` libraries.
 
-Below is a server implementation that uses the provided simple text document manager that synchronizes text documents by always sending the file's full content from VS Code to the server.
+Below is a server implementation that uses the provided text document manager that synchronizes text documents by always sending incremental deltas from VS Code to the server.
 
 ```typescript
 import {
@@ -531,7 +527,7 @@ Debugging the client code is as easy as debugging a normal extension. Set a brea
 
 ![Debugging the client](images/language-server-extension-guide/debugging-client.png)
 
-Since the server is started by the `LanguageClient` running in the extension (client), we need to attach a debugger to the running server. To do so, switch to the Run view and select the launch configuration **Attach to Server** and press `kb(workbench.action.debug.start)`. This will attach the debugger to the server.
+Since the server is started by the `LanguageClient` running in the extension (client), we need to attach a debugger to the running server. To do so, switch to the **Run and Debug** view and select the launch configuration **Attach to Server** and press `kb(workbench.action.debug.start)`. This will attach the debugger to the server.
 
 ![Debugging the server](images/language-server-extension-guide/debugging-server.png)
 
@@ -900,6 +896,15 @@ connection.onDidCloseTextDocument((params) => {
     // A text document was closed in VS Code.
     // params.uri uniquely identifies the document.
 });
+
+/*
+Make the text document manager listen on the connection
+for open, change and close text document events.
+
+Comment out this line to allow `connection.onDidOpenTextDocument`,
+`connection.onDidChangeTextDocument`, and `connection.onDidCloseTextDocument` to handle the events
+*/
+// documents.listen(connection);
 ```
 
 ### Using VS Code API directly to implement Language Features

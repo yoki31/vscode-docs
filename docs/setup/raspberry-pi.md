@@ -4,7 +4,7 @@ Area: setup
 TOCTitle: Raspberry Pi
 ContentId: E059E35A-8AD0-4D4A-9BE1-E23D45D75C1C
 PageTitle: Running Visual Studio Code on Raspberry Pi OS
-DateApproved: 11/4/2021
+DateApproved: 3/30/2023
 MetaDescription: Get Visual Studio Code up and running on Raspberry Pi OS.
 ---
 # Visual Studio Code on Raspberry Pi
@@ -54,6 +54,16 @@ VS Code is supported on these Raspberry Pi models running a 32-bit or 64-bit ver
 While 1 GB of memory (RAM) meets the minimum system requirements, users will benefit from installing VS Code on a Raspberry Pi 4 with more memory.
 
 First-generation Raspberry Pi modules and Raspberry Pi Zero are not supported as they only include an ARMv6 CPU.
+
+### Workaround for poor performance
+
+VS Code on Raspberry Pi 4 may be slow with the default setup. A workaround is to disable hardware (GPU) acceleration in VS Code:
+
+1. Open the VS Code `argv.json` file using the **Preferences: Configure Runtime Arguments** command.
+2. Set `"disable-hardware-acceleration": true`.
+3. Restart VS Code.
+
+The `"disable-hardware-acceleration": true` runtime argument switch has the effect of passing the `--disable-gpu` command-line argument on VS Code startup.
 
 ## Next steps
 

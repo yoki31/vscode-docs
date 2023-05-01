@@ -1,7 +1,7 @@
 ---
 # DO NOT TOUCH — Managed by doc writer
 ContentId: 282670bb-cc72-4b01-9b51-08bf8f5a13a1
-DateApproved: 11/4/2021
+DateApproved: 3/30/2023
 
 # Summarize the whole topic in less than 300 characters for SEO purpose
 MetaDescription: Learn how to run extensions in Visual Studio Code for the web and the web extension host.
@@ -34,10 +34,10 @@ The example below shows the `package.json` for a simple hello world extension, t
   "publisher": "vscode-samples",
   "repository": "https://github.com/microsoft/vscode-extension-samples/helloworld-web-sample",
   "engines": {
-    "vscode": "^1.58.0"
+    "vscode": "^1.74.0"
   },
   "categories": ["Other"],
-  "activationEvents": ["onCommand:helloworld-web-sample.helloWorld"],
+  "activationEvents": [],
   "browser": "./dist/web/extension.js",
   "contributes": {
     "commands": [
@@ -63,6 +63,8 @@ The example below shows the `package.json` for a simple hello world extension, t
   }
 }
 ```
+
+> **Note**: If your extension targets a VS Code version prior to 1.74, you must explicitly list `onCommand:helloworld-web-sample.helloWorld` in `activationEvents`.
 
 Extensions that have only a `main` entry point, but no `browser` are not web extensions. They are ignored by the web extension host and not available for download in the Extensions view.
 
@@ -314,14 +316,6 @@ npx: installed 78 in 2.196s
    └───────────────────────────────────────────────────┘
 
 ```
-
-**Chromium-based browsers**
-
-If you are using Edge, Chrome or any Chromium-based browser, open [vscode.dev](https://vscode.dev), run **Developer: Install Web Extension...** from the Command Palette, and give "http://localhost:5000" as the address.
-
-**Other browsers**
-
-If you are not using a Chromium browser, you can use the following steps:
 
 Open another terminal and run `npx localtunnel -p 5000`:
 

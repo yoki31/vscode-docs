@@ -2,7 +2,7 @@
 TOCTitle: FAQ
 ContentId: E02F97FD-842B-4D27-B461-37DD18B2582E
 PageTitle: Visual Studio Code Frequently Asked Questions
-DateApproved: 11/4/2021
+DateApproved: 3/30/2023
 MetaDescription: Visual Studio Code Frequently Asked Questions
 ---
 # Visual Studio Code FAQ
@@ -43,13 +43,9 @@ From **File** > **Preferences** > **Settings** (macOS: **Code** > **Preferences*
 
 VS Code collects data about any crashes that occur and sends it to Microsoft to help improve our products and services. Read our [privacy statement](https://go.microsoft.com/fwlink/?LinkID=528096&clcid=0x409) and [telemetry documentation](/docs/getstarted/telemetry.md) to learn more.
 
-If you don't want to send crash data to Microsoft, you can change the `enable-crash-reporter` runtime argument to `false`
+If you don't want to send crash data to Microsoft, you can change the `telemetry.telemetryLevel` user [setting](/docs/getstarted/settings.md) to `off`.
 
-* Open the Command Palette (`kb(workbench.action.showCommands)`).
-* Run the **Preferences: Configure Runtime Arguments** command.
-* This command will open a `argv.json` file to configure runtime arguments.
-* Edit `"enable-crash-reporter": false`.
-* Restart VS Code.
+From **File** > **Preferences** > **Settings** (macOS: **Code** > **Preferences** > **Settings**), search for `telemetry`, and set the **Telemetry: Telemetry Level** setting to `off`. This will silence all telemetry events including crash reporting from VS Code. You will need to restart VS Code for the setting change to take effect.
 
 ## GDPR and VS Code
 
@@ -153,28 +149,38 @@ If you need a type of installation not listed there, you can manually download v
 
 Download type | URL
 --- | ---
-Windows 64 bit System installer | https://update.code.visualstudio.com/{version}/win32-x64/stable
-Windows 64 bit User installer| https://update.code.visualstudio.com/{version}/win32-x64-user/stable
-Windows 64 bit zip | https://update.code.visualstudio.com/{version}/win32-x64-archive/stable
-Windows 64 bit ARM System installer | https://update.code.visualstudio.com/{version}/win32-arm64/stable
-Windows 64 bit ARM User installer | https://update.code.visualstudio.com/{version}/win32-arm64-user/stable
-Windows 64 bit ARM zip | https://update.code.visualstudio.com/{version}/win32-arm64-archive/stable
-Windows 32 bit System installer | https://update.code.visualstudio.com/{version}/win32/stable
-Windows 32 bit User installer | https://update.code.visualstudio.com/{version}/win32-user/stable
-Windows 32 bit zip | https://update.code.visualstudio.com/{version}/win32-archive/stable
-macOS | https://update.code.visualstudio.com/{version}/darwin/stable
-Linux 64 bit | https://update.code.visualstudio.com/{version}/linux-x64/stable
-Linux 64 bit debian | https://update.code.visualstudio.com/{version}/linux-deb-x64/stable
-Linux 64 bit rpm | https://update.code.visualstudio.com/{version}/linux-rpm-x64/stable
-Linux 64 bit snap | https://update.code.visualstudio.com/{version}/linux-snap-x64/stable
-Linux ARM | https://update.code.visualstudio.com/{version}/linux-armhf/stable
-Linux ARM debian | https://update.code.visualstudio.com/{version}/linux-deb-armhf/stable
-Linux ARM rpm | https://update.code.visualstudio.com/{version}/linux-rpm-armhf/stable
-Linux 64 bit ARM  | https://update.code.visualstudio.com/{version}/linux-arm64/stable
-Linux 64 bit ARM debian | https://update.code.visualstudio.com/{version}/linux-deb-arm64/stable
-Linux 64 bit ARM rpm | https://update.code.visualstudio.com/{version}/linux-rpm-arm64/stable
+Windows x64 System installer | https://update.code.visualstudio.com/{version}/win32-x64/stable
+Windows x64 User installer| https://update.code.visualstudio.com/{version}/win32-x64-user/stable
+Windows x64 zip | https://update.code.visualstudio.com/{version}/win32-x64-archive/stable
+Windows x64 CLI | https://update.code.visualstudio.com/{version}/cli-win32-x64/stable
+Windows Arm64 System installer | https://update.code.visualstudio.com/{version}/win32-arm64/stable
+Windows Arm64 User installer | https://update.code.visualstudio.com/{version}/win32-arm64-user/stable
+Windows Arm64 zip | https://update.code.visualstudio.com/{version}/win32-arm64-archive/stable
+Windows Arm64 CLI | https://update.code.visualstudio.com/{version}/cli-win32-arm64/stable
+Windows x86 System installer | https://update.code.visualstudio.com/{version}/win32/stable
+Windows x86 User installer | https://update.code.visualstudio.com/{version}/win32-user/stable
+Windows x86 zip | https://update.code.visualstudio.com/{version}/win32-archive/stable
+Windows x86 CLI | https://update.code.visualstudio.com/{version}/cli-win32-ia32/stable
+macOS Universal | https://update.code.visualstudio.com/{version}/darwin-universal/stable
+macOS Intel chip | https://update.code.visualstudio.com/{version}/darwin/stable
+macOS Intel chip CLI | https://update.code.visualstudio.com/{version}/cli-darwin-x64/stable
+macOS Apple silicon | https://update.code.visualstudio.com/{version}/darwin-arm64/stable
+macOS Apple silicon CLI | https://update.code.visualstudio.com/{version}/cli-darwin-arm64/stable
+Linux x64 | https://update.code.visualstudio.com/{version}/linux-x64/stable
+Linux x64 debian | https://update.code.visualstudio.com/{version}/linux-deb-x64/stable
+Linux x64 rpm | https://update.code.visualstudio.com/{version}/linux-rpm-x64/stable
+Linux x64 snap | https://update.code.visualstudio.com/{version}/linux-snap-x64/stable
+Linux Arm32 CLI | https://update.code.visualstudio.com/{version}/cli-linux-x64/stable
+Linux Arm32 | https://update.code.visualstudio.com/{version}/linux-armhf/stable
+Linux Arm32 debian | https://update.code.visualstudio.com/{version}/linux-deb-armhf/stable
+Linux Arm32 rpm | https://update.code.visualstudio.com/{version}/linux-rpm-armhf/stable
+Linux Arm32 CLI | https://update.code.visualstudio.com/{version}/cli-linux-armhf/stable
+Linux Arm64  | https://update.code.visualstudio.com/{version}/linux-arm64/stable
+Linux Arm64 debian | https://update.code.visualstudio.com/{version}/linux-deb-arm64/stable
+Linux Arm64 rpm | https://update.code.visualstudio.com/{version}/linux-rpm-arm64/stable
+Linux Arm64 CLI | https://update.code.visualstudio.com/{version}/cli-linux-arm64/stable
 
-Substitute the specific release you want in the `{version}` placeholder. For example, to download the Linux ARM debian version for 1.50.1, you would use
+Substitute the specific release you want in the `{version}` placeholder. For example, to download the Linux Arm32 debian version for 1.50.1, you would use
 
 ```bash
 https://update.code.visualstudio.com/1.50.1/linux-deb-armhf/stable
@@ -208,6 +214,54 @@ Yes, VS Code has a [Portable Mode](/docs/editor/portable.md) that lets you keep 
 
 For bugs, feature requests or to contact an extension author, you should use the links available in the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/vscode) or use **Help: Report Issue** from the Command Palette. However, if there is an issue where an extension does not follow our code of conduct, for example it includes profanity, pornography or presents a risk to the user, then we have [an email alias to report the issue](mailto:VSMarketplace@microsoft.com). Once the mail is received, our Marketplace team will look into an appropriate course of action, up to and including unpublishing the extension.
 
+## Installation appears to be corrupt [Unsupported]
+
+VS Code does a background check to detect if the installation has been changed on disk and if so, you will see the text **[Unsupported]** in the title bar. This is done since some extensions directly modify (patch) the VS Code product in such a way that is semi-permanent (until the next update) and this can cause hard to reproduce issues. We are not trying to block VS Code patching, but we want to raise awareness that patching VS Code means you are running an unsupported version. [Reinstalling VS Code](/download) will replace the modified files and silence the warning.
+
+You may also see the **[Unsupported]** message if VS Code files have been mistakenly quarantined or removed by anti-virus software (see issue [#94858](https://github.com/microsoft/vscode/issues/94858) for an example). Check your anti-virus software settings and reinstall VS Code to repair the missing files.
+
+## Resolving shell environment fails
+
+*This section applies to macOS and Linux environments only.*
+
+When VS Code is launched from a terminal (for example, via `code .`), it has access to environment settings defined in your `.bashrc` or `.zshrc` files. This means features like tasks or debug targets also have access to those settings.
+
+However, when launching from your platform's user interface (for example, the VS Code icon in the macOS dock), you normally are not running in the context of a shell and you don't have access to those environment settings. This means that depending on how you launch VS Code, you may not have the same environment.
+
+To work around this, when launched via a UI gesture, VS Code will start a small process to run (or "resolve") the shell environment defined in your `.bashrc` or `.zshrc` files. If, after a configurable timeout (via `application.shellEnvironmentResolutionTimeout`, defaults to 10 seconds), the shell environment has still not been resolved or resolving failed for any other reason, VS Code will abort the "resolve" process, launch without your shell's environment settings, and you will see an error like the following:
+
+![Shell environment startup error](images/faq/shell-env-error.png)
+
+If the error message indicates that resolving your shell environment took too long, the [steps below](#investigate-slow-shell-initialization) can help you investigate what might be causing slowness. You can also increase the timeout by configuring the `application.shellEnvironmentResolutionTimeout` setting. But keep in mind that increasing this value means you will have to wait longer to use some of the features in VS Code, such as extensions.
+
+If you see other errors, please create an [issue](https://github.com/microsoft/vscode/issues) to get help.
+
+### Investigate slow shell initialization
+
+The process outlined below may help you identify which parts of your shell initialization are taking the most time:
+
+* Open your shell's startup file (for example, in VS Code by typing `~/.bashrc` or `~/.zshrc` in Quick Open (`kb(workbench.action.quickOpen)`)).
+* Selectively comment out potentially long running operations (such as `nvm` if you find that).
+* Save and fully restart VS Code.
+* Continue commenting out operations until the error disappears.
+
+>**Note**: While `nvm` is a powerful and useful Node.js package manager, it can cause slow shell startup times, if being run during shell initialization. You might consider package manager alternatives such as [asdf](https://asdf-vm.com) or search on the internet for `nvm` performance suggestions.
+
+### Launch VS Code from a terminal
+
+If modifying your shell environment isn't practical, you can avoid VS Code's resolving shell environment phase by launching VS Code directly from a fully initialized terminal.
+
+* Typing `code` from an open terminal will launch VS Code with your last workspace.
+* Typing `code .` will launch VS Code open to the current folder.
+
+## VS Code is blank?
+
+The Electron shell used by Visual Studio Code has trouble with some GPU (graphics processing unit) hardware acceleration. If VS Code is displaying a blank (empty) main window, you can try disabling GPU acceleration when launching VS Code by adding the Electron `--disable-gpu` command-line switch.
+
+```bash
+code --disable-gpu
+```
+
 ## VS Code gets unresponsive right after opening a folder
 
 When you open a folder, VS Code will search for typical project files to offer you additional tooling (for example, the solution picker in the Status bar to open a solution). If you open a folder with lots of files, the search can take a large amount of time and CPU resources during which VS Code might be slow to respond. We plan to improve this in the future but for now you can exclude folders from the explorer via the `files.exclude` setting and they will not be searched for project files:
@@ -218,43 +272,20 @@ When you open a folder, VS Code will search for typical project files to offer y
     }
 ```
 
-## VS Code is blank?
+## Can I run VS Code on older Windows versions?
 
-The Electron shell used by Visual Studio Code has trouble with some GPU (graphics processing unit) hardware acceleration. If VS Code is displaying a blank (empty) main window, you can try disabling GPU acceleration when launching VS Code by adding the Electron `--disable-gpu` command-line switch.
+Microsoft ended support and is no longer providing security updates for [Windows 7](https://learn.microsoft.com/lifecycle/products/windows-7), [Windows 8, and Windows 8.1](https://learn.microsoft.com/en-us/lifecycle/announcements/windows-8-1-end-support-january-2023). VS Code desktop versions starting with 1.71 (August 2022) no longer run on Windows 7 and starting with 1.80 (June 2023) will no longer run on Windows 8 and 8.1. You will need to upgrade to a newer Windows version to use later versions of VS Code.
 
-```bash
-code --disable-gpu
-```
+VS Code will no longer provide product updates or security fixes on old Windows versions. VS Code [version 1.70.3](https://code.visualstudio.com/updates/v1_70) is the last available release for Windows 7 users and version 1.79.1 will be the last available release for Windows 8 and 8.1 users. You can learn more about upgrading your Windows version at [support.microsoft.com](https://support.microsoft.com/windows/windows-7-support-ended-on-january-14-2020-b75d4580-2cc7-895a-2c9c-1466d9a53962).
 
-## Installation appears to be corrupt [Unsupported]
+## Can I run VS Code on old macOS versions?
 
-VS Code does a background check to detect if the installation has been changed on disk and if so, you will see the text **[Unsupported]** in the title bar. This is done since some extensions directly modify (patch) the VS Code product in such a way that is semi-permanent (until the next update) and this can cause hard to reproduce issues. We are not trying to block VS Code patching, but we want to raise awareness that patching VS Code means you are running an unsupported version. [Reinstalling VS Code](/download) will replace the modified files and silence the warning.
+VS Code desktop versions starting with 1.77 (March 2023) will no longer run on macOS Sierra (version 10.12 and older) and you will need to upgrade to a newer macOS version to use later versions of VS Code.
 
-You may also see the **[Unsupported]** message if VS Code files have been mistakenly quarantined or removed by anti-virus software (see issue [#94858](https://github.com/microsoft/vscode/issues/94858) for an example). Check your anti-virus software settings and reinstall VS Code to repair the missing files.
-
-## Resolving Shell Environment fails
-
-*This section applies to macOS and Linux environments only.*
-
-When VS Code is launched from a terminal (for example, via `code .`), it has access to environment settings defined in your `.bashrc` or `.zshrc` files. This means features like tasks or debug targets also have access to those settings.
-
-However, when launching from your platform's user interface (for example, the VS Code icon in the macOS dock), you normally are not running in the context of a shell and you don't have access to those environment settings. This means that depending on how you launch VS Code, you may not have the same environment.
-
-To work around this, when launched via a UI gesture, VS Code will start a small process to run (or "resolve") the shell environment defined in your `.bashrc` or `.zshrc` files. If, after 10 seconds, the shell environment has still not been resolved or resolving failed for any other reason, VS Code will abort the "resolve" process, launch without your shell's environment settings, and you will see an error like the following:
-
-![Shell environment startup error](images/faq/shell-env-error.png)
-
-If the error message indicates that resolving your shell environment took too long, the easiest way to investigate this is to:
-
-* Open your shell's startup file (for example, in VS Code by typing `~/.bashrc` or `~/.zshrc` in Quick Open (`kb(workbench.action.quickOpen)`)).
-* Selectively comment out potentially long running operations (such as `nvm` if you find that).
-* Save and fully restart VS Code.
-* Continue commenting out operations until the error disappears.
-
-If you see other errors, please create an [issue](https://github.com/microsoft/vscode/issues) to get help.
+VS Code will no longer provide product updates or security fixes on macOS Sierra (versions 10.12 and older) and VS Code version 1.76 will be the last available release for macOS Sierra (10.12 and older). You can learn more about upgrading your macOS version at [support.apple.com](https://support.apple.com/en-us/HT201260).
 
 ## Technical Support
 
 You can ask questions and search for answers on [Stack Overflow](https://stackoverflow.com/questions/tagged/vscode) and enter issues and feature requests directly in our [GitHub repository](https://github.com/microsoft/vscode/blob/main/CONTRIBUTING.md).
 
-If you'd like to contact a professional support engineer, you can open a ticket with the [Microsoft assisted support team](https://support.microsoft.com/assistedsupportproducts).
+If you'd like to contact a professional support engineer, you can open a ticket with the [Microsoft assisted support team](https://support.microsoft.com/oas/default.aspx?prid=16064).

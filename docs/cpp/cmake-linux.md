@@ -1,10 +1,10 @@
 ---
-Order: 7
+Order: 8
 Area: cpp
 TOCTitle: CMake Tools on Linux
 ContentId: 86543311-5452-4b1f-a44c-03cc3df04c3f
 PageTitle: Get started with CMake Tools on Linux
-DateApproved: 06/11/2020
+DateApproved: 6/11/2020
 MetaDescription: Get started with the CMake Tools Visual Studio Code extension on Linux
 ---
 # Get started with CMake Tools on Linux
@@ -15,7 +15,7 @@ The CMake Tools extension integrates Visual Studio Code and CMake to make it eas
 
 In this tutorial, you'll use the CMake Tools extension for Visual Studio Code to configure, build, and debug a simple C++ CMake project on Linux. Aside from installing CMake, your compiler, debugger, and build tools, the steps in this tutorial apply generally to how you'd use CMake on other platforms, like Windows.
 
-If you have any trouble, please file an issue for this tutorial in the [VS Code documentation repository](https://github.com/microsoft/vscode-docs/issues).
+If you have any trouble, please file an issue for this tutorial in the [VS Code documentation repository](https://github.com/microsoft/vscode-docs/issues). Also, for more information about CMake Tools in general, see [CMake Tools for Visual Studio Code documentation](https://github.com/microsoft/vscode-cmake-tools/blob/main/docs/README.md)
 
 ## Prerequisites
 
@@ -76,7 +76,7 @@ If you have an existing CMake project that already has a `CMakeLists.txt` file i
 
 Otherwise, create a folder for a new project. From the Terminal window, create an empty folder called `cmakeQuickStart`, navigate into it, and open VS Code in that folder by entering the following commands:
 
-```cmd
+```bash
 mkdir cmakeQuickStart
 cd cmakeQuickStart
 code .

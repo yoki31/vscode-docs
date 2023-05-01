@@ -1,10 +1,10 @@
 ---
-Order: 13
+Order: 14
 Area: python
 TOCTitle: Settings Reference
 ContentId: d256dc5c-95e9-4c02-a82f-947bf34a3517
 PageTitle: Settings Reference for Python
-DateApproved: 11/16/2021
+DateApproved: 3/6/2023
 MetaDescription: Settings Reference for the Python extension in Visual Studio Code
 MetaSocialImage: images/tutorial/social.png
 ---
@@ -14,24 +14,25 @@ The Python Extension for Visual Studio Code is highly configurable. This page de
 
 For general information about working with settings in VS Code, refer to [User and workspace settings](/docs/getstarted/settings.md), as well as the [Variables reference](/docs/editor/variables-reference.md) for information about predefined variable support.
 
-## General settings
+## General Python settings
 
 | Setting<br/>(python.) | Default | Description |
 | --- | --- | --- |
 | condaPath | `"conda"` | Path to the `conda` executable. |
-| defaultInterpreterPath | `"python"` | Path to the default Python interpreter to be used by the Python extension on the first time it loads for a workspace, or the path to a folder containing the Python interpreter. Can use variables like `${workspaceFolder}` and `${workspaceFolder}/.venv`. Using a path to a folder allows anyone working with a project to create an environment in the `.venv` folder as appropriate to their operating system, rather than having to specify an exact platform-dependent path. `settings.json` file can then be included in a source code repository. **Note**: Changes to this setting made after an interpreter has been selected for a workspace will not be applied or considered by the Python extension. As well, the Python extension doesn't automatically add or change this setting.|
+| defaultInterpreterPath | `"python"` | Path to the default Python interpreter to be used by the Python extension on the first time it loads for a workspace, or the path to a folder containing the Python interpreter. <br> Can use variables like `${workspaceFolder}` and `${workspaceFolder}/.venv`. <br> Using a path to a folder allows anyone working with a project to create an environment in the `.venv` folder as appropriate to their operating system, rather than having to specify an exact platform-dependent path. The `settings.json` file can then be included in a source code repository. <br> **Note**: Changes to this setting made after an interpreter has been selected for a workspace will not be applied or considered by the Python extension. The Python extension doesn't automatically add or change this setting.|
+| interpreter.infoVisibility | `"onPythonRelated"` |  Controls when to display the selected interpreter information on the status bar. <br> By default, it only shows when there are Python related files open in the editor. <br> You can set it to `"always"` if you'd like it to always show on the status bar, or `"never"` to hide it entirely. |
 | pipenvPath | `"pipenv"` | Path to the pipenv executable to use for activation. |
-| disableInstallationCheck | `false` | If set to `true`, disables a warning from the extension if no Python interpreter is installed. On macOS, also disables a warning that appears if you're using the OS-installed Python interpreter. It's generally recommended to install a separate interpreter on macOS. |
-| venvFolders | `[]` | Paths to folders where virtual environments are created. Depending on the virtualization tool used, it can be the project itself: `${workspaceFolder}`, or separate folders for all virtual environments located side by side: `.\envs`, `~/.virtualenvs`, and so on. |
-| envFile | `"${workspaceFolder}/`<br/>`.env"` | Absolute path to a file containing environment variable definitions. See [Configuring Python environments - environment variable definitions file](/docs/python/environments.md#environment-variable-definitions-file). |
-| globalModuleInstallation | `false` | Specifies whether to install packages for the current user only using the `--user` command-line argument (the default), or to install for all users in the global environment (when set to `true`). Ignored when using a virtual environment. For more information on the `--user`argument, see [pip - User Installs](https://pip.pypa.io/en/stable/user_guide/#user-installs). |
-| poetryPath | `"poetry"` | Specifies the location of the [Poetry dependency manager](https://poetry.eustace.io/) executable, if installed. The default value `"poetry"` assumes the executable is in the current path. The Python extension uses this setting to install packages when Poetry is available and there's a `poetry.lock` file in the workspace folder. |
-| terminal.launchArgs | `[]` | Launch arguments that are given to the Python interpreter when you run a file using commands such as **Python: Run Python File in Terminal**. In the `launchArgs` list, each item is a top-level command-line element that's separated by a space (quoted values that contain spaces are a single top-level element and are thus one item in the list). For example, for the arguments `--a --b --c {"value1" : 1, "value2" : 2}`, the list items should be `["--a", "--b", "--c", "{\"value1\" : 1, \"value2\" : 2}\""]`. Note that Visual Studio code ignores this setting when debugging because it instead uses arguments from your selected debugging configuration in `launch.json`. |
+| venvFolders | `[]` | Paths to folders where virtual environments are created. <br> Depending on the virtualization tool used, it can be the project itself: `${workspaceFolder}`, or separate folders for all virtual environments located side by side: `.\envs`, `~/.virtualenvs`, and so on. |
+| envFile | `"${workspaceFolder}/`<br/>`.env"` | Absolute path to a file containing environment variable definitions. <br> See [Configuring Python environments - environment variable definitions file](/docs/python/environments.md#environment-variable-definitions-file). |
+| globalModuleInstallation | `false` | Specifies whether to install packages for the current user only using the `--user` command-line argument (the default), or to install for all users in the global environment (when set to `true`). Ignored when using a virtual environment. <br> For more information on the `--user` argument, see [pip - User Installs](https://pip.pypa.io/en/stable/user_guide/#user-installs). |
+| poetryPath | `"poetry"` | Specifies the location of the [Poetry dependency manager](https://poetry.eustace.io/) executable, if installed. The default value `"poetry"` assumes the executable is in the current path. <br> The Python extension uses this setting to install packages when Poetry is available and there's a `poetry.lock` file in the workspace folder. |
+| terminal.launchArgs | `[]` | Launch arguments that are given to the Python interpreter when you run a file using commands such as **Python: Run Python File in Terminal**.<br> In the `launchArgs` list, each item is a top-level command-line element that's separated by a space (quoted values that contain spaces are a single top-level element and are thus one item in the list). <br> For example, for the arguments `--a --b --c {"value1" : 1, "value2" : 2}`, the list items should be `["--a", "--b", "--c", "{\"value1\" : 1, \"value2\" : 2}\""]`. <br> Note that VS Code ignores this setting when debugging because it instead uses arguments from your selected debugging configuration in `launch.json`. |
 | terminal.executeInFileDir | `false` | Indicates whether to run a file in the file's directory instead of the current folder. |
-| terminal.activateEnvironment | `true` | Indicates whether to automatically activate the environment you select using the **Python: Select Interpreter** command when a new terminal is created. For example, when this setting is `true` and you select a virtual environment, the extension automatically runs the environment's *activate* command when creating a new terminal (`source env/bin/activate` on macOS/Linux; `env\scripts\activate` on Windows). |
+| terminal.activateEnvironment | `true` | Indicates whether to automatically activate the environment you select using the **Python: Select Interpreter** command when a new terminal is created.<br> For example, when this setting is `true` and you select a virtual environment, the extension automatically runs the environment's *activate* command when creating a new terminal (`source env/bin/activate` on macOS/Linux; `env\scripts\activate` on Windows). |
 | terminal.activateEnvInCurrentTerminal | `false` | Specifies whether to activate the currently open terminal when the Python extension is activated, using the virtual environment selected. |
-| logging.level| `error` | Specifies the level of logging to be performed by the extension. The possible levels of logging, in increasing level of information provided, are `off`, `error`, `warn`, `info`, and `debug`. When set to `off`, which is not recommended, basic information will still be shown such as startup information and commands run by the Python extension. At the `error` level, basic information and errors will be shown. At the `warn` level, basic, error, and warning information will be shown. At the `info` level, basic, error, warning, and additional information like method execution times and return values will be shown. At this time, the `debug` level doesn't display additional information. |
-| insidersChannel | `off` | Specifies whether to participate in the Insiders program and the channel to use. Set to `weekly` or `daily` to automatically download and install the latest Insiders builds of the Python extension, which include upcoming features and bug fixes. |
+| terminal.focusAfterLaunch | `false` | Whether to switch the cursor focus to the terminal when launching a Python terminal. |
+| logging.level| `error` | Specifies the level of logging to be performed by the extension.<br> The possible levels of logging, in increasing level of information provided, are `off`, `error`, `warn`, `info`, and `debug`.<br> When set to `off`, which is not recommended, basic information will still be shown such as startup information and commands run by the Python extension.<br> At the `error` level, basic information and errors will be shown.<br> At the `warn` level, basic, error, and warning information will be shown. At the `info` level, basic, error, warning, and additional information like method execution times and return values will be shown. At this time, the `debug` level doesn't display additional information. |
+| experiments.enabled | `true` |  Enables [A/B experiments in the Python extension](https://aka.ms/AAjvt9q). If enabled, you may be provided with proposed enhancements and/or features. |
 
 ## Code analysis settings
 
@@ -51,17 +52,26 @@ The language server settings apply when `python.languageServer` is `Pylance` or 
 
 | Setting<br/>(python.analysis.) | Default | Description |
 | --- | --- | --- |
-| typeCheckingMode | off | Specifies the level of type checking analysis to perform. Available values are `off`, `basic`, and `strict`. When set to `off` no type checking analysis is conducted; unresolved imports/variables diagnostics are produced. When set to `basic` non-type checking-related rules (all rules in `off`), as well as basic type checking rules are used. When set to `strict` all type checking rules at the highest severity of error (including all rules in `off` and `basic` categories) are used. |
-| diagnosticMode | openFilesOnly | Specifies what code files the language server analyzes for problems. Available values are `workspace` and `openFilesOnly`. |
+| typeCheckingMode | off | Specifies the level of type checking analysis to perform. <br> Available values are `off`, `basic`, and `strict`. <br> When set to `off` no type checking analysis is conducted; unresolved imports/variables diagnostics are produced. <br> When set to `basic` non-type checking-related rules (all rules in `off`), as well as basic type checking rules are used. <br> When set to `strict` all type checking rules at the highest severity of error (including all rules in `off` and `basic` categories) are used. |
+| diagnosticMode | openFilesOnly | Specifies what code files the language server analyzes for problems. <br> Available values are `workspace` and `openFilesOnly`. |
+| include | [] | Paths of directories or files that should be included in analysis. <br> If no paths are specified, Pylance defaults to the directory that contains the workspace root. <br> Paths may contain wildcard characters such as `**` (a directory or multiple levels of directories), `*` (a sequence of zero or more characters), or `?` (a single character). |
+| exclude | [] | Paths of directories or files that should not be included in analysis. <br> These override the directories listed under the `python.analysis.include` setting, allowing specific subdirectories to be excluded. <br> Note that files listed in this `exclude` setting may still be included in the analysis if they are referenced/imported by source files that are not in the excluded list. <br> Paths may contain wildcard characters such as `**` (a directory or multiple levels of directories), `*` (a sequence of zero or more characters), or `?` (a single character). <br> If no exclude paths are specified, Pylance automatically excludes the following: `**/node_modules`, `**/\_\_pycache\_\_`, `.git` and any virtual environment directories. |
+| ignore | [] | Paths of directories or files whose diagnostic output (errors and warnings) should be suppressed, even if they are an included file or within the transitive closure of an included file. <br> Paths may contain wildcard characters such as `**` (a directory or multiple levels of directories), `*` (a sequence of zero or more characters), or `?` (a single character). <br> If no value is provided, the value of `python.linting.ignorePatterns` (if set) will be used. |
 | stubPath | ./typings | Specifies a path to a directory that contains custom type stubs. Each package's type stub file(s) are expected to be in its own subdirectory. |
 | autoSearchPaths | true | Indicates whether to automatically add search paths based on some predefined names (like `src`). Available values are `true` and `false`. |
-| extraPaths | [] | Specifies extra search paths for import resolution. Paths should be specified as strings and must be separated by commas when there are multiple paths. `["path 1","path 2"]` |
+| extraPaths | [] | Specifies extra search paths for import resolution. <br> Accepts paths specified as strings and separated by commas if there are multiple paths. For example: `["path 1","path 2"]`. |
+| indexing | true | Used to specify whether Pylance should index user files as well as installed third party libraries at start up, to provide a more complete set of symbols in features such as auto imports, Quick Fixes, auto completions, etc. <br> Accepted values are `true` or `false`. <br> When set to `true`, by default Pylance indexes top-level symbols of installed packages (i.e., symbols in `__all__` under `package/__init__.py`), as well as all symbols from up to 2000 user files. <br> When set to `false`, Pylance will only display symbols already referenced or used in files that were previously opened in or loaded by the editor.    |
+| packageIndexDepths | [] |  Used to override how many levels under installed packages to index on a per package basis. <br> By default, only top-level modules are indexed (depth = 1). <br> To index submodules, increase depth by 1 for each level of submodule you want to index. <br> Accepted values are tuples of objects like ```{"name": "package name (str)", "depth": "depth to scan (int)", "includeAllSymbols": "whether to include all symbols (bool)"}```. <br> If `includeAllSymbols` is set to `false`, only symbols in each package's `__all__` are included. When it's set to `true`, Pylance will index every module/top level symbol declarations in the file. <br> Usage example: ```[{"name": "sklearn", "depth": 2, "includeAllSymbols": true}, {"name": "matplotlib", "depth": 3, "includeAllSymbols": false}]``` |
 | completeFunctionParens | false | Adds parentheses to function completions. Accepted values are `true` and `false`. |
 | useLibraryCodeForTypes | true | Parses the source code for a package when a type stub is not found. Available values are `true` and `false`. |
-| autoImportCompletions | true | Controls the offering of auto-imports in completions. Available values are `true` and `false`. |
-| diagnosticSeverityOverrides | {} | Allows a user to override the severity levels for individual diagnostics. For each rule, the available severity levels are `error` (red squiggle), `warning` (yellow squiggle), `information` (blue squiggle), and `none` (rule disabled). For information about the keys to use for the diagnostic severity rules, see the **Diagnostic severity rules** section below. |
-
-> **Note:** Similar to the core Python extension, Pylance has an Insiders program that offers early access to new features and improvements. To enable the Insiders program, set `pylance.insidersChannel` to `daily`. This setting enables a daily check for new builds. At startup or when the Insiders setting is changed, Pylance will automatically update and prompt you to reload. To leave the Insiders program, just remove the setting, or explicitly set it to `off` instead. You might be prompted to downgrade your extension to the latest stable version.
+| autoImportCompletions | false | Controls the offering of auto imports in completions. Available values are `true` and `false`. |
+| importFormat | `absolute`| Defines the default format when auto importing modules. Accepted values are `absolute` or `relative`. |
+| inlayHints.variableTypes | false | Whether to display inlay hints for variable types. Accepted values are `true` or `false`. |
+| inlayHints.functionReturnTypes | false |  Whether to display inlay hints for function return types.  Accepted values are `true` or `false`. |
+| inlayHints.pytestParameters | false | Whether to display inlay hints for pytest fixture argument types. Accepted values are `true` or `false`. |
+| diagnosticSeverityOverrides | {} | Allows a user to override the severity levels for individual diagnostics. <br> For each rule, the available severity levels are `error` (red squiggle), `warning` (yellow squiggle), `information` (blue squiggle), and `none` (rule disabled). <br> For information about the keys to use for the diagnostic severity rules, see the **Diagnostic severity rules** section below. |
+| fixAll | `[]` | A list of code actions to run when running the **Fix All** command or the `source.fixAll` code action. <br> Accepted values in this list: <ul><li> `source.unusedImports`: removes all unused imports in the open file</li> <li> `source.convertImportFormat`: converts the imports according to the `python.analysis.importFormat` setting </li> |
+| logLevel | `Error` | Specifies the level of logging to be performed by the language server.<br> The possible levels of logging, in increasing level of information provided, are `Error`, `Warning`, `Information`, and `Trace`.|
 
 **Diagnostic severity rules**
 
@@ -80,7 +90,7 @@ This section details all the available rules that can be customized using the `p
 | --- | ---|
 | reportGeneralTypeIssues | Diagnostics for general type inconsistencies, unsupported operations, argument/parameter mismatches, etc. This covers all of the basic type-checking rules not covered by other rules. It does not include syntax errors.  |
 | reportPropertyTypeMismatch | Diagnostics for properties where the type of the value passed to the setter is not assignable to the value returned by the getter. Such mismatches violate the intended use of properties, which are meant to act like variables. |
-| reportPropertyTypeMismatch | Diagnostics for member accesses on functions.  |
+| reportFunctionMemberAccess | Diagnostics for member accesses on functions.  |
 | reportMissingImports | Diagnostics for imports that have no corresponding imported python file or type stub file.  |
 | reportMissingModuleSource | Diagnostics for imports that have no corresponding source file. This happens when a type stub is found, but the module source file was not found, indicating that the code may fail at runtime when using this execution environment. Type checking will be done using the type stub. |
 | reportMissingTypeStubs | Diagnostics for imports that have no corresponding type stub file (either a typeshed file or a custom type stub). The type checker requires type stubs to do its best job at analysis. |
@@ -126,19 +136,10 @@ This section details all the available rules that can be customized using the `p
 | reportUnsupportedDunderAll | Diagnostics for unsupported operations performed on `__all__`. |
 | reportUnusedCoroutine | Diagnostics for call expressions that return a Coroutine and whose results are not consumed. |
 
-#### Jedi Language Server
-
-The language server settings apply when `python.languageServer` is `Jedi`.
-| Setting | Default | Description |
-| --- | --- | --- |
-| jediPath | `""` | Path to folder containing the Jedi library (folder should contain a `jedi` subfolder). |
-| jediMemoryLimit | 0 | Memory limit for the Jedi completion engine in megabytes. Zero (the default) means 1024 MB. -1 disables the memory limit check. |
-
 ## AutoComplete settings
 
 | Setting<br/>(python.autoComplete.) | Default | Description | See also |
 | --- | --- | --- | --- |
-| addBrackets | `false` | Specifies whether VS Code automatically adds parentheses (`()`) when autocompleting a function name. | [Editing](/docs/python/editing.md#autocomplete-and-intellisense) |
 | extraPaths | `[]` | Specifies locations of additional packages for which to load autocomplete data. | [Editing](/docs/python/editing.md#autocomplete-and-intellisense) |
 
 ## Formatting settings
@@ -153,21 +154,14 @@ The language server settings apply when `python.languageServer` is `Jedi`.
 | yapfPath | `"yapf"` | Path to yapf | [Editing - Formatting](/docs/python/editing.md#formatting) |
 | yapfArgs| `[]` | Arguments for yapf, where each top-level element that's separated by a space is a separate item in the list. | [Editing - Formatting](/docs/python/editing.md#formatting) |
 
-## Refactoring - Sort Imports settings
-
-| Setting<br/>(python.sortImports.) | Default | Description | See also |
-| --- | --- | --- | --- |
-| path | `""` | Path to isort script | [Editing - Refactoring - Sort Imports](/docs/python/editing.md#sort-imports) |
-| args | `[]` | Arguments for isort, each argument as a separate item in the array. | [Editing - Refactoring - Sort Imports](/docs/python/editing.md#sort-imports) |
-
 ## Linting settings
 
-### General
+### General linting
 
 | Setting<br/>(python.linting.) | Default | Description | See also |
 | --- | --- | --- | --- |
 | enabled | `true` | Specifies whether to enable linting in general. | [Linting](/docs/python/linting.md) |
-| lintOnSave | `true` | Specifies whether to line when saving a file. | [Linting](/docs/python/linting.md) |
+| lintOnSave | `true` | Specifies whether to lint when saving a file. | [Linting](/docs/python/linting.md) |
 | maxNumberOfProblems | `100` | Limits the number of linting messages shown. | [Linting](/docs/python/linting.md) |
 | ignorePatterns | `[".vscode/*.py", "**/site-packages/**/*.py"]` | Exclude file and folder patterns. | [Linting](/docs/python/linting.md) |
 
@@ -239,9 +233,17 @@ The language server settings apply when `python.languageServer` is `Jedi`.
 | pylamaArgs | `[]` | Additional arguments for pylama, where each top-level element that's separated by a space is a separate item in the list.  | [Linting](/docs/python/linting.md) |
 | pylamaPath | `"pylama"` | The path to pylama. | [Linting](/docs/python/linting.md) |
 
+### bandit
+
+| Setting<br/>(python.linting.) | Default | Description | See also |
+| --- | --- | --- | --- |
+| banditEnabled | `false` | Specifies whether to enable bandit. | [Linting](/docs/python/linting.md) |
+| banditArgs | `[]` | Additional arguments for bandit, where each top-level element that's separated by a space is a separate item in the list.  | [Linting](/docs/python/linting.md) |
+| banditPath | `"bandit"` | The path to bandit. | [Linting](/docs/python/linting.md) |
+
 ## Testing settings
 
-### General settings
+### General testing
 
 | Setting<br/>(python.testing.) | Default | Description | See also |
 | --- | --- | --- | --- |
@@ -264,7 +266,6 @@ The language server settings apply when `python.languageServer` is `Jedi`.
 | pytestEnabled | `false` | Specifies whether pytest is enabled for testing. | [Testing](/docs/python/testing.md) |
 | pytestPath | `"pytest"` | Path to pytest. Use a full path if pytest is located outside the current environment. | [Testing](/docs/python/testing.md) |
 | pytestArgs | `[]` | Arguments to pass to pytest, where each top-level element that's separated by a space is a separate item in the list. When debugging tests with pytest-cov installed, include `--no-cov` in these arguments. | [Testing](/docs/python/testing.md) |
-
 
 ## Predefined variables
 

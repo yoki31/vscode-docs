@@ -4,7 +4,7 @@ Area: getstarted
 TOCTitle: Tips and Tricks
 ContentId: 9bbbe55d-cf81-428f-8a9f-4f60280cb874
 PageTitle: Visual Studio Code Tips and Tricks
-DateApproved: 11/4/2021
+DateApproved: 3/30/2023
 MetaDescription: Visual Studio Code Tips and Tricks for power users.
 ---
 # Visual Studio Code Tips and Tricks
@@ -154,7 +154,7 @@ There are many things you can do to customize VS Code.
 
 Keyboard Shortcut: `kb(workbench.action.selectTheme)`
 
-You can install more themes from the VS Code extension [Marketplace](https://marketplace.visualstudio.com/search?target=VSCode&category=Themes&sortBy=Downloads).
+You can install more themes from the VS Code extension [Marketplace](https://marketplace.visualstudio.com/search?target=VSCode&category=Themes&sortBy=Installs).
 
 ![Preview themes](images/tips-and-tricks/PreviewThemes.gif)
 
@@ -164,7 +164,7 @@ Additionally, you can install and change your File Icon themes.
 
 ### Keymaps
 
-Are you used to keyboard shortcuts from another editor? You can install a Keymap extension that brings the keyboard shortcuts from your favorite editor to VS Code. Go to **Preferences** > **Keymaps** to see the current list on the [Marketplace](https://marketplace.visualstudio.com/search?target=VSCode&category=Keymaps&sortBy=Downloads). Some of the more popular ones:
+Are you used to keyboard shortcuts from another editor? You can install a Keymap extension that brings the keyboard shortcuts from your favorite editor to VS Code. Go to **Preferences** > **Migrate Keyboard Shortcuts from...** to see the current list on the [Marketplace](https://marketplace.visualstudio.com/search?target=VSCode&category=Keymaps&sortBy=Installs). Some of the more popular ones:
 
 * [Vim](https://marketplace.visualstudio.com/items?itemName=vscodevim.vim)
 * [Sublime Text Keymap](https://marketplace.visualstudio.com/items?itemName=ms-vscode.sublime-keybindings)
@@ -345,7 +345,8 @@ or a custom schema
                 }
             }
         }
-    },
+    }
+]
 ```
 
 See more in the [JSON](/docs/languages/json.md) documentation.
@@ -397,7 +398,7 @@ Keyboard Shortcut: `kb(workbench.action.terminal.toggleTerminal)`
 
 Further reading:
 
-* [Integrated Terminal](/docs/editor/integrated-terminal.md) documentation
+* [Integrated Terminal](/docs/terminal/basics.md) documentation
 * [Mastering VS Code's Terminal article](https://www.growingwiththeweb.com/2017/03/mastering-vscodes-terminal.html)
 
 ### Toggle Sidebar
@@ -448,7 +449,7 @@ You can quickly open a file or image or create a new file by moving the cursor t
 
 ### Close the currently opened folder
 
-Keyboard Shortcut: `kb(workbench.action.closeActiveEditor)`
+Keyboard Shortcut: `kb(workbench.action.closeFolder)`
 
 ### Navigation history
 
@@ -484,9 +485,9 @@ Use the actions in the editor toolbar to resolve the save conflict. You can eith
 
 ## Editing hacks
 
-Here is a selection of common features for editing code. If the keyboard shortcuts aren't comfortable for you, consider installing a [keymap extension](https://marketplace.visualstudio.com/search?target=VSCode&category=Keymaps&sortBy=Downloads) for your old editor.
+Here is a selection of common features for editing code. If the keyboard shortcuts aren't comfortable for you, consider installing a [keymap extension](https://marketplace.visualstudio.com/search?target=VSCode&category=Keymaps&sortBy=Installs) for your old editor.
 
-**Tip**: You can see recommended keymap extensions in the **Extensions** view with `kb(workbench.extensions.action.showRecommendedKeymapExtensions)` which filters the search to `@recommended:keymaps`.
+**Tip**: You can see recommended keymap extensions in the **Extensions** view by filtering the search to `@recommended:keymaps`.
 
 ### Multi cursor selection
 
@@ -752,7 +753,7 @@ See IntelliSense for your `package.json` file.
 
 ### Create custom snippets
 
-**File** > **Preferences** > **User Snippets** (**Code** > **Preferences** > **User Snippets** on macOS), select the language, and create a snippet.
+**File** > **Preferences** > **Configure User Snippets** (**Code** > **Preferences** > **Configure User Snippets** on macOS), select the language, and create a snippet.
 
 ```json
 "create component": {
@@ -840,7 +841,7 @@ Use the **Toggle Output** command (`kb(workbench.action.output.toggleOutput)`) a
 
 ### Gutter indicators
 
-View diff decorations in editor. See [documentation](/docs/editor/versioncontrol.md#gutter-indicators) for more details.
+View diff decorations in editor. See [documentation](/docs/sourcecontrol/overview.md#gutter-indicators) for more details.
 
 ![git gutter indicators](images/tips-and-tricks/mgutter_icons.gif)
 
@@ -868,9 +869,9 @@ git config --global difftool.vscode.cmd 'code --wait --diff $LOCAL $REMOTE'
 
 ### Configure debugger
 
-Open the **Command Palette** (`kb(workbench.action.showCommands)`) and select **Debug: Open launch.json**, which will prompt you to select the environment that matches your project (Node.js, Python, C++, etc). This will generate a `launch.json` file. Node.js support is built-in and other environments require installing the appropriate language extensions. See the debugging [documentation](/docs/editor/debugging.md) for more details.
+From the Run and Debug view (`kb(workbench.view.debug)`), select **create a launch.json file**, which will prompt you to select the environment that matches your project (Node.js, Python, C++, etc). This will generate a `launch.json` file. Node.js support is built-in and other environments require installing the appropriate language extensions. See the debugging [documentation](/docs/editor/debugging.md) for more details.
 
-![configure debugging](images/tips-and-tricks/configure_debug.gif)
+![configure debugging](images/tips-and-tricks/configure-debug.png)
 
 ### Breakpoints and stepping through
 

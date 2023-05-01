@@ -1,11 +1,11 @@
 ---
-Order: 16
+Order: 17
 Area: advancedcontainers
 TOCTitle: Questions or feedback
-PageTitle: Remote - Containers questions or feedback
+PageTitle: Dev Containers questions or feedback
 ContentId: 6e283295-8039-4b60-854a-809bd8612ee4
-MetaDescription: Remote - Containers questions or feedback
-DateApproved: 11/4/2021
+MetaDescription: Dev Containers questions or feedback
+DateApproved: 3/30/2023
 ---
 # Questions or feedback
 
@@ -13,7 +13,7 @@ The links below can provide you with more help configuring your development cont
 
 ## Resources
 
-* See [Tips and Tricks](/docs/remote/troubleshooting.md#containers-tips) or the [FAQ](/docs/remote/faq.md).
+* See [Tips and Tricks](/docs/devcontainers/tips-and-tricks.md) or the [FAQ](/docs/devcontainers/faq.md).
 * Search on [Stack Overflow](https://stackoverflow.com/questions/tagged/vscode-remote).
 
 ## Feedback
@@ -22,6 +22,6 @@ The links below can provide you with more help configuring your development cont
 
 ## Contributing
 
-* Create a [development container definition](https://aka.ms/vscode-dev-containers) for others to use.
+* Create a [Dev Container Template](https://containers.dev/templates) or [Feature](https://containers.dev/features) for others to use.
 * Contribute to [our documentation](https://github.com/microsoft/vscode-docs) or [VS Code itself](https://github.com/microsoft/vscode).
 * See our [CONTRIBUTING](https://aka.ms/vscode-remote/contributing) guide for details.

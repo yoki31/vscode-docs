@@ -5,7 +5,7 @@ TOCTitle: Start processes
 PageTitle: Start a processes when a container starts
 ContentId: 5be7285b-998b-4378-bdc4-90915e858eb7
 MetaDescription: Start a process when a container starts
-DateApproved: 11/4/2021
+DateApproved: 3/30/2023
 ---
 # Start a process when the container starts
 
@@ -55,7 +55,7 @@ These systems also include a `service` command that will use `systemctl` or `/et
 
 While `postStartCommand` is convenient and allows you to execute commands in your source tree, you can also add these steps instead to a Dockerfile using a custom [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) or [CMD](https://docs.docker.com/engine/reference/builder/#cmd).
 
-When referencing a Dockerfile in `devcontainer.json`, the default entrypoint and command is overridden. First, disable this behavior using the `overrrideCommand` property.
+When referencing a Dockerfile in `devcontainer.json`, the default entrypoint and command is overridden. First, disable this behavior using the `overrideCommand` property.
 
 ```json
 "overrideCommand": false
@@ -65,13 +65,13 @@ The `overrideCommand` property defaults to `true` because many images will immed
 
 Next, consider this Dockerfile:
 
-```Dockerfile
-FROM mcr.microsoft.com/vscode/devcontainers/base:0-focal
+```docker
+FROM mcr.microsoft.com/devcontainers/base:1-ubuntu
 
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
-CMD [ "sleep", "infinity"' ]
+CMD [ "sleep", "infinity" ]
 ```
 
 The `CMD` here makes sure the container stays running by default. Keeping your startup steps in the `ENTRYPOINT` allows you to safely override the command when using `docker run` with your image or using Docker Compose. This resolves to the following:
@@ -83,7 +83,7 @@ The `CMD` here makes sure the container stays running by default. Keeping your s
 Next, create a `docker-entrypoint.sh` script:
 
 ```bash
-#!/usr/env bash
+#!/usr/bin/env bash
 
 echo "Hello from our entrypoint!"
 

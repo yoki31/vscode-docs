@@ -1,10 +1,10 @@
 ---
-Order: 12
+Order: 14
 Area: editor
 TOCTitle: Tasks
 ContentId: F5EA1A52-1EF2-4127-ABA6-6CEF5447C608
 PageTitle: Tasks in Visual Studio Code
-DateApproved: 11/4/2021
+DateApproved: 3/30/2023
 MetaDescription: Expand your development workflow with task integration in Visual Studio Code.
 ---
 # Integrate with External Tools via Tasks
@@ -293,6 +293,10 @@ Sometimes you want to control how the Integrated Terminal panel behaves when run
   * `always` - The panel is always brought to front. This is the default.
   * `never` - The user must explicitly bring the terminal panel to the front using the  **View** > **Terminal** command (`kb(workbench.action.terminal.toggleTerminal)`).
   * `silent` - The terminal panel is brought to front only if the output is not scanned for errors and warnings.
+* **revealProblems**: Controls whether the Problems panel is revealed when running this task or not. Takes precedence over option `reveal`. Default is `never`.
+  * `always` - Always reveals the Problems panel when this task is executed.
+  * `onProblem` - Only reveals the Problems panel if a problem is found.
+  * `never` - Never reveals the Problems panel when this task is executed.
 * **focus**: Controls whether the terminal is taking input focus or not. Default is `false`.
 * **echo**: Controls whether the executed command is echoed in the terminal. Default is `true`.
 * **showReuseMessage**: Controls whether to show the "Terminal will be reused by tasks, press any key to close it" message.
@@ -301,6 +305,7 @@ Sometimes you want to control how the Integrated Terminal panel behaves when run
   * `dedicated` - The terminal is dedicated to a specific task. If that task is executed again, the terminal is reused. However, the output of a different task is presented in a different terminal.
   * `new` - Every execution of that task is using a new clean terminal.
 * **clear**: Controls whether the terminal is cleared before this task is run. Default is `false`.
+* **close**: Controls whether the terminal the task runs in is closed when the task exits. Default is `false`.
 * **group**: Controls whether the task is executed in a specific terminal group using split panes. Tasks in the same group (specified by a string value) will use split terminals to present instead of a new terminal panel.
 
 You can modify the terminal panel behavior for auto-detected tasks as well. For example, if you want to change the output behavior for the **npm: run lint** from the ESLint example from above, add the `presentation` property to it:
@@ -369,7 +374,7 @@ You can specify a task's run behaviors using the `runOptions` property:
 * **reevaluateOnRerun**: Controls how variables are evaluated when a task is executed through the **Rerun Last Task** command. The default is `true`, meaning that variables will be reevaluated when a task is rerun. When set to `false` the resolved variable values from the previous run of the task will be used.
 * **runOn**: Specifies when a task is run.
   * `default` - The task will only be run when executed through the **Run Task** command.
-  * `folderOpen` - The task will be run when the containing folder is opened. The first time you open a folder that contains a task with `folderOpen`, you will be asked if you want to allow tasks to run automatically in that folder. You can change your decision later using the **Allow Automatic Tasks in Folder** and **Disallow Automatic Tasks in Folder** commands.
+  * `folderOpen` - The task will be run when the containing folder is opened. The first time you open a folder that contains a task with `folderOpen`, you will be asked if you want to allow tasks to run automatically in that folder. You can change your decision later using the **Manage Automatic Tasks** command and selecting between **Allow Automatic Tasks** and **Disallow Automatic Tasks**.
 
 ## Customizing auto-detected tasks
 
@@ -519,6 +524,8 @@ Below is an example that uses the Node.js executable as a command and is treated
 
 Valid operating properties are `windows` for Windows, `linux` for Linux, and `osx` for macOS. Properties defined in an operating system specific scope override properties defined in the task or global scope.
 
+## Global tasks
+
 Task properties can also be defined in the global scope. If present, they will be used for specific tasks unless they define the same property with a different value. In the example below, there is a global `presentation` property, which defines that all tasks should be executed in a new panel:
 
 ```json
@@ -541,6 +548,8 @@ Task properties can also be defined in the global scope. If present, they will b
     ]
 }
 ```
+
+>**Tip:** To get access to the global scope `tasks.json` file, open the Command Palette (`kb(workbench.action.showCommands)`) and run the **Tasks: Open User Tasks** command.
 
 ### Character escaping in PowerShell
 
@@ -599,14 +608,7 @@ To highlight the power of tasks, here are a few examples of how VS Code can use 
 
 ### Transpiling TypeScript to JavaScript
 
-The [TypeScript topic](/docs/languages/typescript.md#transpiling-typescript-into-javascript) includes an example that creates a task to transpile TypeScript to JavaScript and observe any related errors from within VS Code.
-
-### Compiling Markdown to HTML
-
-The Markdown topic provides two examples for compiling Markdown to HTML:
-
-1. [Manually compiling with a Build task](/docs/languages/markdown.md#compiling-markdown-into-html)
-2. [Automating the compile step with a file watcher](/docs/languages/markdown.md#automating-markdown-compilation)
+The [TypeScript topic](/docs/typescript/typescript-compiling.md) includes an example that creates a task to transpile TypeScript to JavaScript and observe any related errors from within VS Code.
 
 ### Transpiling Less and SCSS into CSS
 
@@ -783,7 +785,7 @@ Here is a problem matcher to fully capture ESLint stylish problems:
 }
 ```
 
-**Note**: If you have multiple problems that occur on the same resource with the exact same line and column, then only one problem will be shown. This applies to all problem matchers, not just multiline problem matchers.
+>**Note**: If you have multiple problems that occur on the same resource with the exact same line and column, then only one problem will be shown. This applies to all problem matchers, not just multiline problem matchers.
 
 ## Modifying an existing problem matcher
 
@@ -890,10 +892,12 @@ That was tasks - let's keep going...
 
 ### Can a task use a different shell than the one specified for the Integrated Terminal?
 
-Yes. You can use the `"terminal.integrated.automationShell.*"` setting to set the shell that will be used for all automation in VS Code, which includes Tasks.
+Yes. You can use the `"terminal.integrated.automationProfile.*"` setting to set the shell that will be used for all automation in VS Code, which includes Tasks.
 
 ```json
-    "terminal.integrated.automationShell.windows": "cmd.exe",
+    "terminal.integrated.automationProfile.windows": {
+        "path": "cmd.exe"
+    }
 ```
 
 Alternatively, you can override a task's shell with the `options.shell` property. You can set this per task, globally, or per platform. For example, to use cmd.exe on Windows, your `tasks.json` would include:
@@ -929,7 +933,7 @@ Your task could be:
 }
 ```
 
-**Note:** The `$tsc-watch` is a **background** problem matcher, as is required for a background task.
+>**Note:** The `$tsc-watch` is a **background** problem matcher, as is required for a background task.
 
 You can then use the task as a `prelaunchTask` in your `launch.json` file:
 

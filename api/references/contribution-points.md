@@ -1,7 +1,7 @@
 ---
 # DO NOT TOUCH — Managed by doc writer
 ContentId: 2F27A240-8E36-4CC2-973C-9A1D8069F83F
-DateApproved: 11/4/2021
+DateApproved: 3/30/2023
 
 # Summarize the whole topic in less than 300 characters for SEO purpose
 MetaDescription: To extend Visual Studio Code, your extension (plug-in) declares which of the various Contribution Points it is using in its package.json Extension Manifest file.
@@ -19,6 +19,7 @@ MetaDescription: To extend Visual Studio Code, your extension (plug-in) declares
 - [`customEditors`](/api/references/contribution-points#contributes.customEditors)
 - [`debuggers`](/api/references/contribution-points#contributes.debuggers)
 - [`grammars`](/api/references/contribution-points#contributes.grammars)
+- [`icons`](/api/references/contribution-points#contributes.icons)
 - [`iconThemes`](/api/references/contribution-points#contributes.iconThemes)
 - [`jsonValidation`](/api/references/contribution-points#contributes.jsonValidation)
 - [`keybindings`](/api/references/contribution-points#contributes.keybindings)
@@ -28,9 +29,13 @@ MetaDescription: To extend Visual Studio Code, your extension (plug-in) declares
 - [`problemPatterns`](/api/references/contribution-points#contributes.problemPatterns)
 - [`productIconThemes`](/api/references/contribution-points#contributes.productIconThemes)
 - [`resourceLabelFormatters`](/api/references/contribution-points#contributes.resourceLabelFormatters)
+- [`semanticTokenModifiers`](/api/references/contribution-points#contributes.semanticTokenModifiers)
+- [`semanticTokenScopes`](/api/references/contribution-points#contributes.semanticTokenScopes)
+- [`semanticTokenTypes`](/api/references/contribution-points#contributes.semanticTokenTypes)
 - [`snippets`](/api/references/contribution-points#contributes.snippets)
 - [`submenus`](/api/references/contribution-points#contributes.submenus)
 - [`taskDefinitions`](/api/references/contribution-points#contributes.taskDefinitions)
+- [`terminal`](/api/references/contribution-points#contributes.terminal)
 - [`themes`](/api/references/contribution-points#contributes.themes)
 - [`typescriptServerPlugins`](/api/references/contribution-points#contributes.typescriptServerPlugins)
 - [`views`](/api/references/contribution-points#contributes.views)
@@ -71,7 +76,8 @@ Contributes new themable colors. These colors can be used by the extension in ed
         "defaults": {
           "dark": "errorForeground",
           "light": "errorForeground",
-          "highContrast": "#010203"
+          "highContrast": "#010203",
+          "highContrastLight": "#feedc3",
         }
       }
     ]
@@ -98,7 +104,7 @@ hand, shows disabled items but doesn't show the category label.
 
 > **Note:** When a command is invoked (from a key binding, from the **Command Palette**, any other menu, or programmatically), VS Code will emit an activationEvent `onCommand:${command}`.
 
-> **Note:** When using icons form [product icons](https://code.visualstudio.com/api/references/icons-in-labels#icon-listing), setting `light` and `dark` will disable the icon.
+> **Note:** When using icons from [product icons](/api/references/icons-in-labels#icon-listing), setting `light` and `dark` will disable the icon.
 > The correct syntax is `"icon": "$(book)"`
 
 ### command example
@@ -175,7 +181,7 @@ Your configuration entry is used both to provide intellisense when editing your 
 
 **title**
 
-The `title` 1️⃣️ is the main heading that will be used for your configuration section. Normally you will only have one section for your extension.
+The `title` 1️⃣️ of a category is the heading used for that category.
 
 ```json
 {
@@ -185,7 +191,9 @@ The `title` 1️⃣️ is the main heading that will be used for your configurat
 }
 ```
 
-The title should be the exact name of your extension. Words like "Extension", "Configuration", and "Settings" are redundant.
+Note that if the extension has multiple categories of extensions, and the title of one of the categories is the same as the extension display name, then the settings for that category will be placed directly below the main extension heading, no matter what the `order` field is set to.
+
+For both the `title` and `displayName` fields, words like "Extension", "Configuration", and "Settings" are redundant.
 
 - ✔ `"title": "GitMagic"`
 - ❌ `"title": "GitMagic Extension"`
@@ -196,7 +204,7 @@ The title should be the exact name of your extension. Words like "Extension", "C
 
 The `properties` 2️⃣ in your configuration will be a dictionary of configuration properties.
 
-In the settings UI, your configuration key will be used to namespace and construct a title. Capital letters in your key are used to indicate word breaks. For example, if your key is `gitMagic.blame.dateFormat`, the generated title for the setting will look like this:
+In the settings UI, your configuration key will be used to namespace and construct a title. Though an extension can contain multiple categories of settings, each setting of the extension must still have its own unique key. Capital letters in your key are used to indicate word breaks. For example, if your key is `gitMagic.blame.dateFormat`, the generated title for the setting will look like this:
 
 > Blame: **Date Format**
 
@@ -215,11 +223,11 @@ will appear in a single group like this:
 >
 > Blame: **Format**
 >
-> Blame › Heatmap: **Enabled**
+> Blame › Heat Map: **Enabled**
 >
-> Blame › Heatmap: **Location**
+> Blame › Heat Map: **Location**
 
-Otherwise, properties appear in alphabetical order (**not** the order in which they're listed in the manifest).
+Otherwise, properties without an explicit order field appear in alphabetical order (**not** the order in which they're listed in the manifest).
 
 ### Configuration property schema
 
@@ -232,7 +240,7 @@ Your `description` 3️⃣ appears after the title and before the input field, e
 
 ```json
 {
-  "gitMagic.blame.heatmap.enabled": {
+  "gitMagic.blame.heatMap.enabled": {
     "description": "Specifies whether to provide a heatmap indicator in the gutter blame annotations"
   }
 }
@@ -247,6 +255,8 @@ If you use `markdownDescription` instead of `description`, your setting descript
   }
 }
 ```
+
+For `markdownDescription`, in order to add newlines or multiple paragraphs, use the string `\n\n` to separate the paragraphs instead of just `\n`.
 
 **type**
 
@@ -275,11 +285,21 @@ For `boolean` entries, the `description` (or `markdownDescription`) will be used
 }
 ```
 
-Some `object` and `array` type settings will be rendered in the settings UI. Simple arrays of `number` and `string` will be rendered as editable lists. Objects that have properties of type `string` and/or `boolean` will be rendered as editable grids of keys and values. The `object` type setting must set `"additionalProperties": false` to get this support.
+Some `object` and `array` type settings will be rendered in the settings UI. Simple arrays of `number`, `string`, or `boolean` will be rendered as editable lists. Objects that have properties of type `string`, `number`, `integer`, and/or `boolean` will be rendered as editable grids of keys and values. Object settings should also have `additionalProperties` set to either `false`, or an object with an appropriate `type` property, to render in the UI.
 
 If an `object` or `array` type setting can also contain other types like nested objects, arrays, or null, then the value won't be rendered in the settings UI and can only be modified by editing the JSON directly. Users will see a link to **Edit in settings.json** as shown in the screenshot above. 8️⃣
 
-**enum** / **enumDescriptions**
+**order**
+
+Both categories and the settings within those categories can take an integer `order` type property, which gives a reference to how they should be sorted relative to other categories and/or settings.
+
+If two categories have `order` properties, the category with the lower order number comes first. If a category is not given an `order` property, it appears after categories that were given that property.
+
+If two settings within the same category have `order` properties, the setting with the lower order number comes first. If another setting within that same category is not given an `order` property, it will appear after settings in that category that were given that property.
+
+If two categories have the same `order` property value, or if two settings within the same category have the same `order` property value, then they will be sorted in increasing alphabetical order within the settings UI.
+
+**enum** / **enumDescriptions** / **enumItemLabels**
 
 If you provide an array of items under the `enum` 7️⃣ property, the settings UI will render a dropdown menu.
 
@@ -289,7 +309,7 @@ You can also provide an `enumDescriptions` property, which provides descriptive 
 
 ```json
 {
-  "gitMagic.blame.heatmap.location": {
+  "gitMagic.blame.heatMap.location": {
     "type": "string",
     "default": "right",
     "enum": ["left", "right"],
@@ -301,11 +321,14 @@ You can also provide an `enumDescriptions` property, which provides descriptive 
 }
 ```
 
-You can also use `markdownEnumDescriptions`, and your descriptions will be rendered as markdown.
+You can also use `markdownEnumDescriptions`, and your descriptions will be rendered as Markdown.
+
+To customize the dropdown options, you can use `enumItemLabels`. The `workbench.iconTheme` setting uses both `enumDescriptions` and `enumItemLabels`. In the screenshot below, the hovered option has the item label "None", with enum description "No file icons" and enum value `null`.
+![The workbench.iconTheme setting in the Settings UI with the dropdown expanded showing the enum item labels and one enum description](images/contribution-points/settings-ui-icon-theme.png)
 
 **deprecationMessage** / **markdownDeprecationMessage**
 
-If you set `deprecationMessage`, or `markdownDeprecationMessage`, the setting will get a warning underline with your specified message. It won't show up in the settings UI unless it is configured by the user. If you set `markdownDeprecationMessage`, the markdown will not be rendered in the setting hover or the problems view. If you set both properties, `deprecationMessage` will be shown in the hover and the problems view, and `markdownDeprecationMessage` will be rendered as markdown in the settings UI.
+If you set `deprecationMessage`, or `markdownDeprecationMessage`, the setting will get a warning underline with your specified message. It won't show up in the settings UI unless it is configured by the user. If you set `markdownDeprecationMessage`, the markdown will not be rendered in the setting hover or the problems view. If you set both properties, `deprecationMessage` will be shown in the hover and the problems view, and `markdownDeprecationMessage` will be rendered as Markdown in the settings UI.
 
 Example:
 
@@ -374,6 +397,23 @@ Below are example configuration scopes from the built-in Git extension:
           "default": [],
           "scope": "window",
           "description": "%config.ignoredRepositories%"
+        },
+        "git.autofetch": {
+          "type": [
+            "boolean",
+            "string"
+          ],
+          "enum": [
+            true,
+            false,
+            "all"
+          ],
+          "scope": "resource",
+          "markdownDescription": "%config.autofetch%",
+          "default": false,
+          "tags": [
+            "usesOnlineServices"
+          ]
         }
       }
     }
@@ -400,11 +440,17 @@ In the settings UI, this is rendered as:
 
 ## contributes.configurationDefaults
 
-Contribute default language-specific editor configurations. This will override default editor configurations for the provided language.
+Contribute default values for other registered configurations and override their defaults.
 
-The following example contributes default editor configurations for the `markdown` language:
+The following example overrides the default behavior of `files.autoSave` setting to AutoSave files on focus change.
 
-### Configuration default example
+```json
+"configurationDefaults": {
+      "files.autoSave": "onFocusChange"
+}
+```
+
+You can also contribute default editor configurations for the provided language. For example, the following snippet contributes default editor configurations for the `markdown` language:
 
 ```json
 {
@@ -570,6 +616,33 @@ See the [Syntax Highlight Guide](/api/language-extensions/syntax-highlight-guide
 
 ![grammars extension point example](images/contribution-points/grammars.png)
 
+## contributes.icons
+
+Contribute a new icon by ID, along with a default icon. The icon ID can then be used by the extension (or any other extensions that depend on the extension) anywhere a `ThemeIcon` can be used `new ThemeIcon("iconId")`, in [Markdown strings](/api/references/icons-in-labels#icon-in-labels) (`$(iconId)`), and as icons in certain contribution points.
+
+```json
+{
+  "contributes": {
+    "icons": {
+      "distro-ubuntu": {
+        "description": "Ubuntu icon",
+        "default": {
+          "fontPath": "./distroicons.woff",
+          "fontCharacter": "\\E001"
+        }
+      },
+      "distro-fedora": {
+        "description": "Ubuntu icon",
+        "default": {
+          "fontPath": "./distroicons.woff",
+          "fontCharacter": "\\E002"
+        }
+      }
+    }
+  }
+}
+```
+
 ## contributes.iconThemes
 
 Contribute a file icon theme to VS Code. File icons are shown next to file names, indicating the file type.
@@ -583,9 +656,9 @@ You must specify an id (used in the settings), a label and the path to the file 
   "contributes": {
     "iconThemes": [
       {
-        "id": "metro",
-        "label": "Metro File Icons",
-        "path": "./fileicons/metro-file-icon-theme.json"
+        "id": "my-cool-file-icons",
+        "label": "Cool File Icons",
+        "path": "./fileicons/cool-file-icon-theme.json"
       }
     ]
   }
@@ -652,8 +725,9 @@ The main effects of `contributes.languages` are:
 
 - Define a `languageId` that can be reused in other parts of VS Code API, such as `vscode.TextDocument.getLanguageId()` and the `onLanguage` Activation Events.
   - You can contribute a human-readable using the `aliases` field. The first item in the list will be used as the human-readable label.
-- Associate file name extensions, file name patterns, files that begin with a specific line (such as hashbang), mimetypes to that `languageId`.
+- Associate file name extensions (`extensions`), file names (`filenames`), file name glob patterns (`filenamePatterns`), files that begin with a specific line (such as hashbang) (`firstLine`), and `mimetypes` to that `languageId`.
 - Contribute a set of [Declarative Language Features](/api/language-extensions/overview#declarative-language-features) for the contributed language. Learn more about the configurable editing features in the [Language Configuration Guide](/api/language-extensions/language-configuration-guide).
+- Contribute an icon which can be used as in file icon themes if theme does not contain an icon for the language
 
 ### language example
 
@@ -667,7 +741,11 @@ The main effects of `contributes.languages` are:
         "aliases": ["Python", "py"],
         "filenames": [],
         "firstLine": "^#!/.*\\bpython[0-9.-]*\\b",
-        "configuration": "./language-configuration.json"
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/python-light.png",
+          "dark": "./icons/python-dark.png"
+        }
       }
     ]
   }
@@ -697,7 +775,7 @@ Currently extension writers can contribute to:
 - The debug callstack view context menu - `debug/callstack/context`
 - The debug callstack view inline actions - `debug/callstack/context` group `inline`
 - The debug variables view context menu - `debug/variables/context`
-- The debug toolbar - `debug/toolbar`
+- The debug toolbar - `debug/toolBar`
 - The [SCM title menu](/api/extension-guides/scm-provider#menus) - `scm/title`
 - [SCM resource groups](/api/extension-guides/scm-provider#menus) menus - `scm/resourceGroup/context`
 - [SCM resource folders](/api/extension-guides/scm-provider#menus) menus - `scm/resourceFolder/context`
@@ -715,11 +793,13 @@ Currently extension writers can contribute to:
 - The Timeline view item context menu - `timeline/item/context`
 - The Extensions view context menu - `extension/context`
 - The Test Explorer item context menu - `testing/item/context`
+- The menu for a gutter decoration for a test item - `testing/item/gutter`
 - The notebook toolbar - `notebook/toolbar`
 - The notebook cell title menu bar - `notebook/cell/title`
 - The notebook cell execution menu - `notebook/cell/execute`
 - The interactive toolbar - `interactive/toolbar`
 - The interactive cell title menu bar - `interactive/cell/title`
+- Any [webview](/api/extension-guides/webview) context menu - `webview/context`
 - Any [contributed submenu](/api/references/contribution-points#contributes.submenus)
 
 > **Note:** When a command is invoked from a (context) menu, VS Code tries to infer the currently selected resource and passes that as a parameter when invoking the command. For instance, a menu item inside the Explorer is passed the URI of the selected resource and a menu item inside an editor is passed the URI of the document.
@@ -957,6 +1037,66 @@ Contributes resource label formatters that specify how to display URIs everywher
 
 This means that all URIs that have a scheme `remotehub` will get rendered by showing only the `path` segment of the URI and the separator will be `/`. Workspaces which have the `remotehub` URI will have the GitHub suffix in their label.
 
+## contributes.semanticTokenModifiers
+
+Contributes new semantic token modifiers that can be highlighted via theme rules.
+
+```json
+{
+  "contributes": {
+    "semanticTokenModifiers": [
+      {
+        "id": "native",
+        "description": "Annotates a symbol that is implemented natively"
+      }
+    ]
+  }
+}
+```
+
+See the [Semantic Highlighting Guide](/api/language-extensions/semantic-highlight-guide) to read more about semantic highlighting.
+
+## contributes.semanticTokenScopes
+
+Contributes mapping between semantic token types & modifiers and scopes either as a fallback or to support language-specific themes.
+
+```json
+{
+  "contributes": {
+    "semanticTokenScopes": [
+      {
+        "language": "typescript",
+        "scopes": {
+          "property.readonly": ["variable.other.constant.property.ts"]
+        }
+      }
+    ]
+  }
+}
+```
+
+See the [Semantic Highlighting Guide](/api/language-extensions/semantic-highlight-guide) to read more about semantic highlighting.
+
+## contributes.semanticTokenTypes
+
+Contributes new semantic token types that can be highlighted via theme rules.
+
+```json
+{
+  "contributes": {
+    "semanticTokenTypes": [
+      {
+        "id": "templateType",
+        "superType": "type",
+        "description": "A template type."
+      }
+    ]
+  }
+}
+```
+
+See the [Semantic Highlighting Guide](/api/language-extensions/semantic-highlight-guide) to read more about semantic highlighting.
+
 ## contributes.snippets
 
 Contribute snippets for a specific language. The `language` attribute is the [language identifier](/docs/languages/identifiers) and the `path` is the relative path to the snippet file, which defines snippets in the [VS Code snippet format](/docs/editor/userdefinedsnippets#_snippet-syntax).
@@ -1034,6 +1174,38 @@ When the extension actually creates a Task, it needs to pass a `TaskDefinition` 
 
 ```ts
 let task = new vscode.Task({ type: 'npm', script: 'test' }, ....);
+```
+
+## contributes.terminal
+
+Contribute a terminal profile to VS Code, allowing extensions to handle the creation of the profiles. When defined, the profile should appear when creating the terminal profile
+
+```json
+{
+  "activationEvents": [
+    "onTerminalProfile:my-ext.terminal-profile"
+  ],
+  "contributes": {
+    "terminal": {
+      "profiles": [
+        {
+          "title": "Profile from extension",
+          "id": "my-ext.terminal-profile"
+        }
+      ]
+    },
+  }
+}
+```
+
+When defined, the profile will show up in the terminal profile selector. When activated, handle the creation of the profile by returning terminal options:
+
+```ts
+vscode.window.registerTerminalProfileProvider('my-ext.terminal-profile', {
+	provideProfileOptions(token: vscode.CancellationToken): vscode.ProviderResult<vscode.TerminalOptions | vscode.ExtensionTerminalOptions> {
+		return { name: 'Profile from extension', shellPath: 'bash' };
+	}
+});
 ```
 
 ## contributes.themes
@@ -1243,7 +1415,7 @@ Contribute a view container into which [Custom views](#contributes.views) can be
 
 ## contributes.viewsWelcome
 
-Contribute welcome content to [Custom views](#contributes.views). Welcome content only applies to empty tree views. A view is considered empty if the tree has no children. By convention, any command links that are on a line by themselves are displayed as a button. You can specify the view that the welcome content should apply to with the `view` property. Visibility of the welcome content can be controlled with the `when` context value. The text to be displayed as the welcome content is set with the `contents` property.
+Contribute welcome content to [Custom views](#contributes.views). Welcome content only applies to empty tree views. A view is considered empty if the tree has no children and no `TreeView.message`. By convention, any command links that are on a line by themselves are displayed as a button. You can specify the view that the welcome content should apply to with the `view` property. Visibility of the welcome content can be controlled with the `when` context value. The text to be displayed as the welcome content is set with the `contents` property.
 
 ```json
 {

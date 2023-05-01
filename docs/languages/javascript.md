@@ -4,7 +4,7 @@ Area: languages
 TOCTitle: JavaScript
 ContentId: F54BB3D4-76FB-4547-A9D0-F725CEBB905C
 PageTitle: JavaScript Programming with Visual Studio Code
-DateApproved: 11/4/2021
+DateApproved: 3/30/2023
 MetaDescription: Get the best out of Visual Studio Code for JavaScript development
 ---
 
@@ -18,9 +18,9 @@ Most of these features just work out of the box, while some may require basic co
 
 ## IntelliSense
 
-IntelliSense shows you intelligent code completion, hover info, and signature information so that you can write code more quickly and correctly.
+IntelliSense shows you intelligent code completion, hover information, and signature information so that you can write code more quickly and correctly.
 
-<video src="/docs/languages/javascript/intellisense.mp4" placeholder="images/javascript/intellisense-placeholder.png" autoplay loop controls muted>
+<video src="images/javascript/intellisense.mp4" placeholder="images/javascript/intellisense-placeholder.png" autoplay loop controls muted>
     Sorry, your browser doesn't support HTML 5 video.
 </video>
 
@@ -59,7 +59,7 @@ See [Working with JavaScript](/docs/nodejs/working-with-javascript.md) for more 
 
 VS Code includes basic JavaScript [snippets](/docs/editor/userdefinedsnippets.md) that are suggested as you type;
 
-<video src="/docs/languages/javascript/snippets.mp4" placeholder="images/javascript/snippets-placeholder.png" autoplay loop controls muted>
+<video src="images/javascript/snippets.mp4" placeholder="images/javascript/snippets-placeholder.png" autoplay loop controls muted>
     Sorry, your browser doesn't support HTML 5 video.
 </video>
 
@@ -71,13 +71,13 @@ There are many extensions that provide additional snippets, including snippets f
 
 VS Code understands many standard [JSDoc](https://jsdoc.app) annotations, and uses these annotations to provide rich [IntelliSense](#intellisense). You can optionally even use the type information from JSDoc comments to [type check your JavaScript](#type-checking).
 
-<video src="/docs/languages/javascript/jsdoc-autofill.mp4" placeholder="images/javascript/jsdoc-autofill-placeholder.png" autoplay loop controls muted>
+<video src="images/javascript/jsdoc-autofill.mp4" placeholder="images/javascript/jsdoc-autofill-placeholder.png" autoplay loop controls muted>
     Sorry, your browser doesn't support HTML 5 video.
 </video>
 
 Quickly create JSDoc comments for functions by typing `/**` before the function declaration, and select the **JSDoc comment** snippet suggestion:
 
-<video src="/docs/languages/javascript/jsdoc-autofill.mp4" placeholder="images/javascript/jsdoc-autofill-placeholder.png" autoplay loop controls muted>
+<video src="images/javascript/jsdoc-autofill.mp4" placeholder="images/javascript/jsdoc-autofill-placeholder.png" autoplay loop controls muted>
     Sorry, your browser doesn't support HTML 5 video.
 </video>
 
@@ -89,7 +89,7 @@ Hover over a JavaScript symbol to quickly see its type information and relevant 
 
 ![Hovering over a JavaScript variable to see its type information](images/javascript/hover.png)
 
-The `kb(editor.action.showHover)` keyboard shortcut shows this hover info at the current cursor position.
+The `kb(editor.action.showHover)` keyboard shortcut shows this hover information at the current cursor position.
 
 ## Signature Help
 
@@ -119,7 +119,7 @@ To disable auto imports, set `"javascript.suggest.autoImports"` to `false`.
 
 ## Formatting
 
-VS Code's built-in JavaScript formatter providers basic code formatting with reasonable defaults.
+VS Code's built-in JavaScript formatter provides basic code formatting with reasonable defaults.
 
 The `javascript.format.*` [settings](/docs/getstarted/settings.md) configure the built-in formatter. Or, if the built-in formatter is getting in the way, set `"javascript.format.enable"` to `false` to disable it.
 
@@ -135,7 +135,7 @@ You can use JSX syntax in both normal `*.js` files and in `*.jsx` files.
 
 VS Code also includes JSX-specific features such as autoclosing of JSX tags:
 
-<video src="/docs/languages/javascript/tag-complete.mp4" placeholder="images/javascript/tag-complete-placeholder.png" autoplay loop controls muted>
+<video src="images/javascript/tag-complete.mp4" placeholder="images/javascript/tag-complete-placeholder.png" autoplay loop controls muted>
     Sorry, your browser doesn't support HTML 5 video.
 </video>
 
@@ -145,10 +145,10 @@ Set `"javascript.autoClosingTags"` to `false` to disable JSX tag closing.
 
 Code navigation lets you quickly navigate JavaScript projects.
 
-* **Go To Definition** `kb(editor.action.revealDefinition)` - Go to the source code of a symbol definition.
+* **Go to Definition** `kb(editor.action.revealDefinition)` - Go to the source code of a symbol definition.
 * **Peek Definition** `kb(editor.action.peekDefinition)` - Bring up a Peek window that shows the definition of a symbol.
 * **Go to References** `kb(editor.action.goToReferences)` - Show all references to a symbol.
-* **Go to Type Definition** `kb(editor.action.goToTypeDefinition)` - Go to the type that defines a symbol. For an instance of a class, this will reveal the class itself instead of where the instance is defined.
+* **Go to Type Definition** - Go to the type that defines a symbol. For an instance of a class, this will reveal the class itself instead of where the instance is defined.
 
 You can navigate via symbol search using the **Go to Symbol** commands from the **Command Palette** (`kb(workbench.action.showCommands)`).
 
@@ -200,7 +200,7 @@ To disable fading out of unused code, set `"editor.showUnused"` to `false`. You 
 The **Organize Imports** Source Action sorts the imports in a JavaScript file and removes any unused imports:
 
 <!-- TODO: replace with js specific example -->
-<video src="/docs/languages/javascript/organize-imports.mp4" placeholder="images/javascript/organize-imports-placeholder.png" autoplay loop controls muted>
+<video src="images/javascript/organize-imports.mp4" placeholder="images/javascript/organize-imports-placeholder.png" autoplay loop controls muted>
     Sorry, your browser doesn't support HTML 5 video.
 </video>
 
@@ -241,11 +241,35 @@ See [Node.js/JavaScript](/docs/nodejs/working-with-javascript) for more informat
 
 VS Code automatically suggests some common code simplifications such as converting a chain of `.then` calls on a promise to use `async` and `await`
 
-<video src="/docs/languages/javascript/code-suggestions-convert-async.mp4" placeholder="images/javascript/code-suggestions-convert-async-placeholder.png" autoplay loop controls muted>
+<video src="images/javascript/code-suggestions-convert-async.mp4" placeholder="images/javascript/code-suggestions-convert-async-placeholder.png" autoplay loop controls muted>
     Sorry, your browser doesn't support HTML 5 video.
 </video>
 
 Set `"javascript.suggestionActions.enabled"` to `false` to disable suggestions.
+
+## Enhance completions with AI
+
+[GitHub Copilot](https://copilot.github.com/) is an AI-powered code completion tool that helps you write code faster and smarter. You can use the [GitHub Copilot extension](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) in VS Code to generate code, or to learn from the code it generates.
+
+![Copilot extension in the VS Code Marketplace](images/javascript/copilot-extension.png)
+
+GitHub Copilot provides suggestions for numerous languages and a wide variety of frameworks, and it works especially well for Python, JavaScript, TypeScript, Ruby, Go, C# and C++.
+
+You can learn more about how to get started with Copilot in the [Copilot documentation](/docs/editor/artificial-intelligence.md).
+
+Once you have the Copilot extension installed and enabled, you can test it our for your JavaScript projects.
+
+Create a new file - you can use the **File: New File** command in the Command Palette (`kbstyle(F1)`).
+
+In the JavaScript file, type the following function header:
+
+```js
+function calculateDaysBetweenDates(begin, end) {
+```
+
+Copilot will provide a suggestion like the following - use `kbstyle(Tab)` to accept the suggestion:
+
+![Copilot JavaScript ghost text suggestion](images/javascript/js-suggest.png)
 
 ## Inlay hints
 
@@ -287,7 +311,6 @@ Setting: `javascript.inlayHints.functionLikeReturnTypes.enabled`
 
 ![Return type inlay hints](images/javascript/inlay-return-type.png)
 
-
 ## References CodeLens
 
 The JavaScript references CodeLens displays an inline count of reference for classes, methods, properties, and exported objects:
@@ -304,7 +327,7 @@ Click on the reference count to quickly browse a list of references:
 
 When you move or rename a file that is imported by other files in your JavaScript project, VS Code can automatically update all import paths that reference the moved file:
 
-<video src="/docs/languages/javascript/update-imports.mp4" placeholder="images/javascript/update-imports-placeholder.png" autoplay loop controls muted>
+<video src="images/javascript/update-imports.mp4" placeholder="images/javascript/update-imports-placeholder.png" autoplay loop controls muted>
     Sorry, your browser doesn't support HTML 5 video.
 </video>
 
@@ -342,7 +365,7 @@ You can debug your client-side code using a browser debugger such as our built-i
 
 ### Debug server side
 
-Debug Node.js in VS Code using the built-in debugger. Setup is easy and there is a [Node.js debugging tutorial](/docs/nodejs/nodejs-tutorial.md#debugging-your-express-application) to help you.
+Debug Node.js in VS Code using the built-in debugger. Setup is easy and there is a [Node.js debugging tutorial](/docs/nodejs/nodejs-tutorial.md#debug-your-express-app) to help you.
 
 ![debug data inspection](images/javascript/debug_data_inspection.gif)
 
@@ -364,11 +387,6 @@ Read on to find out about:
 * [Debugging](/docs/editor/debugging.md) - Learn how to set up debugging for your application.
 * [Node.js](/docs/nodejs/nodejs-tutorial.md) - A walkthrough to create an Express Node.js application.
 * [TypeScript](/docs/languages/typescript.md) - VS Code has great support for TypeScript, which brings structure and strong typing to your JavaScript code.
-
-Watch these introductory videos:
-
-* [IntelliSense](/docs/introvideos/intellisense.md) - Tutorial on IntelliSense with JavaScript.
-* [Debugging](/docs/introvideos/debugging.md) - Learn how to debug a Node.js application.
 
 ## Common questions
 

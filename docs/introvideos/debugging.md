@@ -10,11 +10,11 @@ MetaSocialImage: images/opengraph/introvideos.png
 ---
 # Debugging in Visual Studio Code
 
-Debugging is a core feature of Visual Studio Code. In this tutorial, we will show you how to run and debug a program in VS Code. We’ll take a tour of the Run View, explore some debugging features, and end by setting a breakpoint.
+Debugging is a core feature of Visual Studio Code. In this tutorial, we will show you how to run and debug a program in VS Code. We'll take a tour of the **Run and Debug** view, explore some debugging features, and end by setting a breakpoint.
 
-> **Tip:** To use the debugging features demonstrated in this video for Node.js, you will need to first install [Node.js](https://nodejs.org/en/). To follow along with the Python portion of the video, you'll need to install [Python](https://www.python.org/downloads/).
+> **Tip:** To use the debugging features demonstrated in this video for Node.js, you will need to first install [Node.js](https://nodejs.org). To follow along with the Python portion of the video, you'll need to install [Python](https://www.python.org/downloads/).
 
-<iframe src="https://www.microsoft.com/videoplayer/embed/RWAIIi" width="640" height="320" allowFullScreen="true" frameBorder="0"></iframe>
+<iframe src="https://www.microsoft.com/videoplayer/embed/RWAIIi" width="640" height="320" allowFullScreen="true" frameBorder="0" title="Debugging in Visual Studio Code"></iframe>
 
 Here's the next video we recommend: [Version Control](/docs/introvideos/versioncontrol.md)
 
@@ -36,4 +36,4 @@ Pick another video from the list: [Introductory Videos](/docs/getstarted/introvi
 ## Related resources
 
 * [Debugging](/docs/editor/debugging.md) - Official documentation for VS Code debugging.
-* [Integrated Terminal](/docs/editor/integrated-terminal.md) - Use the integrated terminal inside VS Code.
+* [Integrated Terminal](/docs/terminal/basics.md) - Use the integrated terminal inside VS Code.

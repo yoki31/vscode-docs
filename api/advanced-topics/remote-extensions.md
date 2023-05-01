@@ -1,6 +1,6 @@
 ---
 ContentId: 5c708951-e566-42db-9d97-e9715d95cdd1
-DateApproved: 11/4/2021
+DateApproved: 3/30/2023
 
 # Summarize the whole topic in less than 300 characters for SEO purpose
 MetaDescription: A guide to adding Visual Studio Code Remote Development and GitHub Codespaces support to extensions
@@ -21,7 +21,7 @@ In order to make working with Remote Development or Codespaces as transparent as
 
 - **Workspace Extensions**: These extensions are run on the same machine as where the workspace is located. When in a local workspace, Workspace Extensions run on the local machine. When in a remote workspace or when using Codespaces, Workspace Extensions run on the remote machine / environment. Workspace Extensions can access files in the workspace to provide rich, multi-file language services, debugger support, or perform complex operations on multiple files in the workspace (either directly or by invoking scripts/tools). While Workspace Extensions do not focus on modifying the UI, they can contribute explorers, views, and other UI elements as well.
 
-When a user installs an extension, VS Code automatically installs it to the correct location based on its kind. If an extension can run as either kind, VS Code will attempt to choose the optimal one for the situation. UI Extensions are run in VS Code's [local Extension Host](/api/advanced-topics/extension-host), while Workspace Extensions are run in a **Remote Extension Host** that sits in a small **VS Code Server**. To ensure the latest VS Code client features are available, the server needs to match the VS Code client version exactly. Therefore, the server is automatically installed (or updated) by the Remote Development or GitHub Codespaces extensions when you open a folder in a container, on a remote SSH host, using Codespaces, or in the Windows Subsystem for Linux (WSL). (VS Code also automatically manages starting and stopping the server, so users aren't aware of its presence.)
+When a user installs an extension, VS Code automatically installs it to the correct location based on its kind. If an extension can run as either kind, VS Code will attempt to choose the optimal one for the situation; UI Extensions will run in VS Code's [local Extension Host](/api/advanced-topics/extension-host), while Workspace Extensions will run in a **Remote Extension Host** that sits in a small [**VS Code Server**](/docs/remote/vscode-server), if it exists in a remote workspace, otherwise will run in VS Code's local extension host if it exists locally. To ensure the latest VS Code client features are available, the server needs to match the VS Code client version exactly. Therefore, the server is automatically installed (or updated) by the Remote Development or GitHub Codespaces extensions when you open a folder in a container, on a remote SSH host, using Codespaces, or in the Windows Subsystem for Linux (WSL). (VS Code also automatically manages starting and stopping the server, so users aren't aware of its presence.)
 
 ![Architecture diagram](images/remote-extensions/architecture.png)
 
@@ -29,7 +29,7 @@ The VS Code APIs are designed to automatically run on the correct machine (eithe
 
 ## Debugging Extensions
 
-While you [can install a development version of your extension](#installing-a-development-version-of-your-extension) in a remote environment for testing, if you encounter issues, you will likely want to debug your extension directly in a remote environment. In this section, we will cover how to edit, launch, and debug your extension in [GitHub Codespaces](#debugging-with-visual-studio-codespaces), a [local container](#debugging-in-a-custom-development-container), an [SSH host](#debugging-using-ssh), or in [WSL](#debugging-using-wsl).
+While you [can install a development version of your extension](#installing-a-development-version-of-your-extension) in a remote environment for testing, if you encounter issues, you will likely want to debug your extension directly in a remote environment. In this section, we will cover how to edit, launch, and debug your extension in [GitHub Codespaces](#debugging-with-github-codespaces), a [local container](#debugging-in-a-custom-development-container), an [SSH host](#debugging-using-ssh), or in [WSL](#debugging-using-wsl).
 
 Typically, your best starting point for testing is to use a remote environment that restricts port access (for example Codespaces, a container, or remote SSH hosts with a restrictive firewall) since extensions that work in these environments tend to work in less restrictive ones like WSL.
 
@@ -39,11 +39,11 @@ Debugging your extension in [GitHub Codespaces](https://docs.github.com/github/d
 
 Follow these steps:
 
-1. Navigate to the repository that contains your extension on GitHub and [open it in a codespace](https://docs.github.com/github/developing-online-with-codespaces/creating-a-codespace) to work with it in a browser-based editor. You can also [open the codespace in VS Code](https://docs.github.com/en/github/developing-online-with-codespaces/using-codespaces-in-visual-studio-code) if you prefer.
+1. Navigate to the repository that contains your extension on GitHub and [open it in a codespace](https://docs.github.com/github/developing-online-with-codespaces/creating-a-codespace) to work with it in a browser-based editor. You can also [open the codespace in VS Code](https://docs.github.com/github/developing-online-with-codespaces/using-codespaces-in-visual-studio-code) if you prefer.
 
 2. While the default image for GitHub Codespaces should have all the needed prerequisites for most extensions, you can install any other required dependencies (for example, using `yarn install` or `sudo apt-get`) in a new VS Code terminal window (`kb(workbench.action.terminal.new)`).
 
-3. Finally, press `kb(workbench.action.debug.start)` or use the **Run view** to launch the extension inside in the codespace.
+3. Finally, press `kb(workbench.action.debug.start)` or use the **Run and Debug** view to launch the extension inside in the codespace.
 
     > **Note:** You will not be able to open the extension source code folder in the window that appears, but you can open a sub-folder or somewhere else in the codespace.
 
@@ -53,17 +53,17 @@ The extension development host window that appears will include your extension r
 
 Follow these steps:
 
-1. To use a development container locally, [install and configure the Remote - Containers extension](/docs/remote/containers#_getting-started), and use **File > Open... / Open Folder...** to open your source code locally in VS Code. To use Codespaces instead, navigate to the repository that contains your extension on GitHub and [open it in a codespace](https://docs.github.com/github/developing-online-with-codespaces/creating-a-codespace) to work with it in a browser-based editor. You can also [open the codespace in VS Code](https://docs.github.com/en/github/developing-online-with-codespaces/using-codespaces-in-visual-studio-code) if you prefer.
+1. To use a development container locally, [install and configure the Dev Containers extension](/docs/devcontainers/containers#getting-started), and use **File > Open... / Open Folder...** to open your source code locally in VS Code. To use Codespaces instead, navigate to the repository that contains your extension on GitHub and [open it in a codespace](https://docs.github.com/github/developing-online-with-codespaces/creating-a-codespace) to work with it in a browser-based editor. You can also [open the codespace in VS Code](https://docs.github.com/github/developing-online-with-codespaces/using-codespaces-in-visual-studio-code) if you prefer.
 
-2. Select **Remote-Containers: Add Development Container Configuration Files...** or **Codespaces: Add Development Container Configuration Files...** from the Command Palette (`kbstyle(F1)`), and pick **Node.js & TypeScript** (or Node.js if you are not using TypeScript) to add the needed container configuration files.
+2. Select **Dev Containers: Add Dev Container Configuration Files...** or **Codespaces: Add Dev Container Configuration Files...** from the Command Palette (`kbstyle(F1)`), and pick **Node.js & TypeScript** (or Node.js if you are not using TypeScript) to add the needed container configuration files.
 
-3. **[Optional]** After this command runs, you can modify the contents of the `.devcontainer` folder to include additional build or runtime requirements. See the in-depth [Remote - Containers](/docs/remote/create-dev-container#_set-up-a-folder-to-run-in-a-container) documentation for details.
+3. **Optional:** After this command runs, you can modify the contents of the `.devcontainer` folder to include additional build or runtime requirements. See the in-depth [Create a Dev Container](/docs/devcontainers/create-dev-container) documentation for details.
 
-4. Run **Remote-Containers: Reopen Folder in Container** or **Codespaces: Add Development Container Configuration Files..** and in a moment, VS Code will set up the container and connect. You will now be able to develop your source code from inside the container just as you would in the local case.
+4. Run **Dev Containers: Reopen in Container** or **Codespaces: Add Dev Container Configuration Files...** and in a moment, VS Code will set up the container and connect. You will now be able to develop your source code from inside the container just as you would in the local case.
 
 5. Run `yarn install` or `npm install` in a new VS Code terminal window (`kb(workbench.action.terminal.new)`) to ensure the Linux versions Node.js native dependencies are installed. You can also install other OS or runtime dependencies, but you may want to add these to `.devcontainer/Dockerfile` as well so they are available if you rebuild the container.
 
-6. Finally, press `kb(workbench.action.debug.start)` or use the **Run view** to launch the extension inside this same container and attach the debugger.
+6. Finally, press `kb(workbench.action.debug.start)` or use the **Run and Debug** view to launch the extension inside this same container and attach the debugger.
 
     > **Note:** You will not be able to open the extension source code folder in the window that appears, but you can open a sub-folder or somewhere else in the container.
 
@@ -73,13 +73,13 @@ The extension development host window that appears will include your extension r
 
 Follow steps:
 
-1. After [installing and configuring the Remote - SSH extension](/docs/remote/ssh#_getting-started), select **Remote-SSH: Connect to Host...** from the Command Palette (`kbstyle(F1)`) in VS Code to connect to a host.
+1. After [installing and configuring the Remote - SSH extension](/docs/remote/ssh#getting-started), select **Remote-SSH: Connect to Host...** from the Command Palette (`kbstyle(F1)`) in VS Code to connect to a host.
 
 2. Once connected, either use **File > Open... / Open Folder...** to select the remote folder with your extension source code in it or select **Git: Clone** from the Command Palette (`kbstyle(F1)`) to clone it and open it on the remote host.
 
 3. Install any required dependencies that might be missing (for example using `yarn install` or `apt-get`) in a new VS Code terminal window (`kb(workbench.action.terminal.new)`).
 
-4. Finally, press `kb(workbench.action.debug.start)` or use the **Run view** to launch the extension inside on the remote host and attach the debugger.
+4. Finally, press `kb(workbench.action.debug.start)` or use the **Run and Debug** view to launch the extension inside on the remote host and attach the debugger.
 
     > **Note:** You will not be able to open the extension source code folder in the window that appears, but you can open a sub-folder or somewhere else on the SSH host.
 
@@ -89,7 +89,7 @@ The extension development host window that appears will include your extension r
 
 Follow these steps:
 
-1. After [installing and configuring the Remote - WSL extension](/docs/remote/wsl), select **Remote-WSL: New Window** from the Command Palette (`kbstyle(F1)`) in VS Code.
+1. After [installing and configuring the WSL extension](/docs/remote/wsl), select **WSL: New Window** from the Command Palette (`kbstyle(F1)`) in VS Code.
 
 2. In the new window that appears, either use **File > Open... / Open Folder...** to select the remote folder with your extension source code in it or select **Git: Clone** from the Command Palette (`kbstyle(F1)`) to clone it and open it in WSL.
 
@@ -97,7 +97,7 @@ Follow these steps:
 
 3. Install any required dependencies that might be missing (for example using `apt-get`) in a new VS Code terminal window (`kb(workbench.action.terminal.new)`). You will at least want to run `yarn install` or `npm install` to ensure Linux versions of native Node.js dependencies are available.
 
-4. Finally, press `kb(workbench.action.debug.start)` or use the **Run view** to launch the extension and attach the debugger as you would locally.
+4. Finally, press `kb(workbench.action.debug.start)` or use the **Run and Debug** view to launch the extension and attach the debugger as you would locally.
 
     > **Note:** You will not be able to open the extension source code folder in the window that appears, but you can open a sub-folder or somewhere else in WSL.
 
@@ -113,7 +113,7 @@ Follow these steps:
 
 1. If this is a published extension, you may want to add `"extensions.autoUpdate": false` to `settings.json` to prevent it from auto-updating to the latest Marketplace version.
 2. Next, use `vsce package` to package your extension as a VSIX.
-3. Connect to a [codespace](https://docs.github.com/github/developing-online-with-codespaces), [development container](/docs/remote/containers), [SSH host](/docs/remote/ssh), or [WSL environment](/docs/remote/wsl).
+3. Connect to a [codespace](https://docs.github.com/github/developing-online-with-codespaces), [Dev Containers](/docs/devcontainers/containers), [SSH host](/docs/remote/ssh), or [WSL environment](/docs/remote/wsl).
 4. Use the **Install from VSIX...** command available in the Extensions view **More Actions** (`...`) menu to install the extension in this specific window (not a local one).
 5. Reload when prompted.
 
@@ -143,13 +143,13 @@ If your extension is not functioning as expected, it may be running in the wrong
 
 If the **Developer: Show Running Extensions** command shows that a UI extension is incorrectly being treated as a workspace extension or vice versa, try setting the `extensionKind` property in your extension's [package.json](/api/get-started/extension-anatomy#extension-manifest) as described in the [Extension Kinds section](/api/advanced-topics/extension-host#preferred-extension-location).
 
-You can quickly **test** the effect of changing an extension's kind with the `remote.extensionKind` [setting](/docs/getstarted/settings). This setting is a map of extension IDs to extension kinds. For example, if you want to force the [Azure Databases](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb) extension to be a UI extension (instead of its Workspace default) and the [Debugger for Edge](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-edge) to be a workspace extension (instead of its UI default), you would set:
+You can quickly **test** the effect of changing an extension's kind with the `remote.extensionKind` [setting](/docs/getstarted/settings). This setting is a map of extension IDs to extension kinds. For example, if you want to force the [Azure Databases](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb) extension to be a UI extension (instead of its Workspace default) and the [Remote - SSH: Editing Configuration Files](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh-edit) extension to be a workspace extension (instead of its UI default), you would set:
 
 ```json
 {
   "remote.extensionKind": {
       "ms-azuretools.vscode-cosmosdb": ["ui"],
-      "msjsdiag.debugger-for-edge": ["workspace"]
+      "ms-vscode-remote.remote-ssh-edit": ["workspace"]
   }
 }
 ```
@@ -162,43 +162,54 @@ In some cases, your extension may need to persist state information that does no
 
 However, if your extension relies on current VS Code pathing conventions (for example `~/.vscode`) or the presence of certain OS folders (for example `~/.config/Code` on Linux) to persist data, you may run into problems. Fortunately, it should be simple to update your extension and avoid these challenges.
 
-If you are persisting simple key-value pairs, you can store workspace specific or global state information using `vscode.ExtensionContext.workspaceState` or `vscode.ExtensionContext.globalState` respectively. If your data is more complicated than key-value pairs, the  `globalStoragePath` and `storagePath` properties provide "safe" paths that you can use to read/write global workspace-specific information in a file.
+If you are persisting simple key-value pairs, you can store workspace specific or global state information using `vscode.ExtensionContext.workspaceState` or `vscode.ExtensionContext.globalState` respectively. If your data is more complicated than key-value pairs, the  `globalStorageUri` and `storageUri` properties provide "safe" URIs that you can use to read/write global workspace-specific information in a file.
 
 To use the APIs:
 
 ```TypeScript
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
 
 export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
-        vscode.commands.registerCommand('myAmazingExtension.persistWorkspaceData', () => {
+        vscode.commands.registerCommand('myAmazingExtension.persistWorkspaceData', async () => {
+            if (!context.storageUri) {
+                return;
+            }
 
-        // Create the extension's workspace storage folder if it doesn't already exist
-        if (!fs.existsSync(context.storagePath)) {
-            fs.mkdirSync(context.storagePath);
+            // Create the extension's workspace storage folder if it doesn't already exist
+            try {
+                // When folder doesn't exist, and error gets thrown
+                await vscode.workspace.fs.stat(context.storageUri);
+            } catch {
+                // Create the extension's workspace storage folder
+                await vscode.workspace.fs.createDirectory(context.storageUri)
+            }
+
+            const workspaceData = vscode.Uri.joinPath(context.storageUri, 'workspace-data.json');
+            const writeData = new TextEncoder().encode(JSON.stringify({ now: Date.now() }));
+            vscode.workspace.fs.writeFile(workspaceData, writeData);
         }
-
-        // Write a file to the workspace storage folder
-        fs.writeFileSync(
-            path.join(context.storagePath, 'workspace-data.json'),
-            JSON.stringify({ now: Date.now() }));
-    }));
+    ));
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('myAmazingExtension.persistGlobalData', () => {
+        vscode.commands.registerCommand('myAmazingExtension.persistGlobalData', async () => {
 
-        // Create the extension's global (cross-workspace) folder if it doesn't already exist
-        if (!fs.existsSync(context.globalStoragePath)) {
-            fs.mkdirSync(context.globalStoragePath);
+        if (!context.globalStorageUri) {
+            return;
         }
 
-        // Write a file to the global storage folder for the extension
-        fs.writeFileSync(
-            path.join(context.globalStoragePath, 'global-data.json'),
-            JSON.stringify({ now: Date.now() }));
-    }));
+        // Create the extension's global (cross-workspace) folder if it doesn't already exist
+        try {
+            // When folder doesn't exist, and error gets thrown
+            await vscode.workspace.fs.stat(context.globalStorageUri);
+        } catch {
+            await vscode.workspace.fs.createDirectory(context.globalStorageUri)
+        }
+
+        const workspaceData = vscode.Uri.joinPath(context.globalStorageUri, 'global-data.json');
+        const writeData = new TextEncoder().encode(JSON.stringify({ now: Date.now() }));
+        vscode.workspace.fs.writeFile(workspaceData, writeData);
+    ));
 }
 ```
 
@@ -286,7 +297,7 @@ export async function activate(context: vscode.ExtensionContext) {
         vscode.env.openExternal(vscode.Uri.parse('http://localhost:3000'));
 
         // Example 3 - Open the default email application.
-        vscode.env.openExternal(vscode.Uri.parse('mailto:vscode@microsoft.com'));
+        vscode.env.openExternal(vscode.Uri.parse('mailto:<fill in your email here>'));
     }));
 }
 ```
@@ -364,7 +375,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 When running this sample in VS Code, it wires up a `vscode://` or `vscode-insiders://` URI that can be used as a callback for an authentication provider. When running in the Codespaces browser-based editor, it wires up a `https://*.github.dev` URI without any code changes or special conditions.
 
-While OAuth is outside the scope of this document, note that if you adapted this sample to a real authentication provider, you may need to build a proxy service in front of the provider. This is because not all providers allow `vscode://` callback URIs and others do not allow wildcard host names for callbacks over HTTPS. We also recommend using an [OAuth 2.0 Authorization Code with PKCE flow](https://oauth.net/2/pkce/) wherever possible (e.g. Azure AD supports PKCE) to improve the security of the callback.
+While OAuth is outside the scope of this document, note that if you adapted this sample to a real authentication provider, you may need to build a proxy service in front of the provider. This is because not all providers allow `vscode://` callback URIs and others do not allow wildcard host names for callbacks over HTTPS. We also recommend using an [OAuth 2.0 Authorization Code with PKCE flow](https://oauth.net/2/pkce/) wherever possible (for example, Azure AD supports PKCE) to improve the security of the callback.
 
 ### Varying behaviors when running remotely or in the Codespaces browser editor
 
@@ -440,8 +451,8 @@ const panel = vscode.window.createWebviewPanel(
     vscode.ViewColumn.One);
 
 // Get the content Uri
-const catGifUri = panel.webview.asWebviewUri(vscode.Uri.file(
-        path.join(context.extensionPath, 'media', 'cat.gif')));;
+const catGifUri = panel.webview.asWebviewUri(
+    vscode.Uri.joinPath(context.extensionUri, 'media', 'cat.gif'));
 
 // Reference it in your content
 panel.webview.html = `<!DOCTYPE html>
@@ -462,7 +473,7 @@ This is an important pattern for Remote Development and GitHub Codespaces to ens
 
 The alternate pattern is to serve up web content in an `iframe` or have webview content directly interact with a localhost server. Unfortunately, by default, `localhost` inside a webview will resolve to a developer's local machine. This means that for a remotely running workspace extension, the webviews it creates would not be able to access local servers spawned by the extension. Even if you use the IP of the machine, the ports you are connecting to will typically be blocked by default in a cloud VM or a container. Even if this worked in VS Code, it would not work in the Codespaces browser-based editor.
 
-Here's an illustration of the problem when using the Remote - SSH extension, but the problem also exists for Remote - Containers and GitHub Codespaces:
+Here's an illustration of the problem when using the Remote - SSH extension, but the problem also exists for Dev Containers and GitHub Codespaces:
 
 ![Webview problem](images/remote-extensions/webview-problem.png)
 
@@ -604,13 +615,13 @@ There are a few extension problems that could be resolved with some added functi
 
 | Problem | Description |
 |---------|-------------|
-| **Cannot access attached devices from Workspace extension** | Extensions that access locally attached devices will be unable to connect to them when running remotely. We are investigating the best approach to solve this problem. |
+| **Cannot access attached devices from Workspace extension** | Extensions that access locally attached devices will be unable to connect to them when running remotely. One approach to overcome this is to create a companion UI extension whose job is to access the attached device and offers commands that the remote extension can invoke too. <br> Another approach is reverse tunneling, which is being tracked in a [VS Code repo issue](https://github.com/microsoft/vscode/issues/100222). |
 
 ## Questions and feedback
 
 - See [Tips and Tricks](/docs/remote/troubleshooting) or the [FAQ](/docs/remote/faq).
 - Search for answers on [Stack Overflow](https://stackoverflow.com/questions/tagged/vscode-remote).
 - [Upvote a feature or request a new one](https://aka.ms/vscode-remote/feature-requests), search [existing issues](https://aka.ms/vscode-remote/issues), or [report a problem](https://aka.ms/vscode-remote/issues/new).
-- Contribute a [development container definition](https://aka.ms/vscode-dev-containers) for others to use.
+- Create a [development container Template](https://containers.dev/templates) or [Feature](https://containers.dev/features) for others to use.
 - Contribute to [our documentation](https://github.com/microsoft/vscode-docs) or [VS Code](https://github.com/microsoft/vscode).
 - See our [CONTRIBUTING](https://aka.ms/vscode-remote/contributing) guide for details.

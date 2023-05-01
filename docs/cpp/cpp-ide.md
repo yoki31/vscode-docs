@@ -4,7 +4,7 @@ Area: cpp
 TOCTitle: Editing
 ContentId: 61D63E54-67E2-4743-B5CB-C6E7F582982A
 PageTitle: Edit and navigate C++ code in Visual Studio Code
-DateApproved: 07/25/2019
+DateApproved: 7/25/2019
 MetaDescription: How to edit and navigate C++ source files in Visual Studio Code.
 ---
 # Edit C++ in Visual Studio Code
@@ -113,7 +113,7 @@ Read on to find out about:
 * [Configure VS Code for MSVC](/docs/cpp/config-msvc.md)
 * [Configure VS Code for Mingw-w64 and GCC](/docs/cpp/config-mingw.md)
 * [Configure VS Code for macOS](/docs/cpp/config-clang-mac.md)
-* [Configure IntelliSense for cross-compiling](configure-intellisense-crosscompilation.md)
+* [Configure IntelliSense for cross-compiling](/docs/cpp/configure-intellisense-crosscompilation.md)
 * [Basic Editing](/docs/editor/codebasics.md) - Learn about the powerful VS Code editor.
 * [Code Navigation](/docs/editor/editingevolved.md) - Move quickly through your source code.
 * [Tasks](/docs/editor/tasks.md) - use tasks to build your project and more

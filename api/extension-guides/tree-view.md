@@ -1,7 +1,7 @@
 ---
 # DO NOT TOUCH — Managed by doc writer
 ContentId: 9b10cda2-4eb0-4989-8f82-23a46b96c1bb
-DateApproved: 11/4/2021
+DateApproved: 3/30/2023
 
 # Summarize the whole topic in less than 300 characters for SEO purpose
 MetaDescription: A guide to using Tree View in Visual Studio Code extension (plug-in).
@@ -37,9 +37,9 @@ Here's the `package.json` for the first version of our extension:
     "version": "0.0.1",
     "publisher": "alexr00",
     "engines": {
-        "vscode": "^1.42.0"
+        "vscode": "^1.74.0"
     },
-    "activationEvents": [ "onView:nodeDependencies" ],
+    "activationEvents": [],
     "main": "./out/extension.js",
     "contributes": {
         "views": {
@@ -64,6 +64,8 @@ Here's the `package.json` for the first version of our extension:
     }
 }
 ```
+
+> **Note**: If your extension targets a VS Code version prior to 1.74, you must explicitly list `onView:nodeDependencies` in `activationEvents`.
 
 You must specify an identifier and name for the view, and you can contribute to following locations:
 
@@ -124,8 +126,6 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<Depende
      */
     private getDepsInPackageJson(packageJsonPath: string): Dependency[] {
         if (this.pathExists(packageJsonPath)) {
-            const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
-
             const toDep = (moduleName: string, version: string): Dependency => {
                 if (this.pathExists(path.join(this.workspaceRoot, 'node_modules', moduleName))) {
                     return new Dependency(moduleName, version, vscode.TreeItemCollapsibleState.Collapsed);
@@ -133,6 +133,8 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<Depende
                     return new Dependency(moduleName, version, vscode.TreeItemCollapsibleState.None);
                 }
             };
+
+            const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
             const deps = packageJson.dependencies
                 ? Object.keys(packageJson.dependencies).map(dep => toDep(dep, packageJson.dependencies[dep]))
@@ -182,16 +184,18 @@ The third step is to register the above data provider to your view.
 
 This can be done in the following two ways:
 
-- `vscode.window.registerTreeDataProvider` - Register the tree data provider by providing the registered view id and above data provider.
+- `vscode.window.registerTreeDataProvider` - Register the tree data provider by providing the registered view ID and above data provider.
 
     ```typescript
-    vscode.window.registerTreeDataProvider('nodeDependencies', new NodeDependenciesProvider(vscode.workspace.rootPath));
+    const rootPath = (vscode.workspace.workspaceFolders && (vscode.workspace.workspaceFolders.length > 0))
+		? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
+    vscode.window.registerTreeDataProvider('nodeDependencies', new NodeDependenciesProvider(rootPath));
     ```
 
-- `vscode.window.createTreeView` - Create the Tree View by providing the registered view id and above data provider. This will give access to the [TreeView](/api/references/vscode-api#TreeView), which you can use for performing other view operations. Use `createTreeView`, if you need the `TreeView` API.
+- `vscode.window.createTreeView` - Create the Tree View by providing the registered view ID and above data provider. This will give access to the [TreeView](/api/references/vscode-api#TreeView), which you can use for performing other view operations. Use `createTreeView`, if you need the `TreeView` API.
 
     ```typescript
-    vscode.window.createTreeView('nodeDependencies', { treeDataProvider: new NodeDependenciesProvider(vscode.workspace.rootPath)});
+    vscode.window.createTreeView('nodeDependencies', { treeDataProvider: new NodeDependenciesProvider(rootPath)});
     ```
 
 Here's the extension in action:
@@ -239,7 +243,9 @@ import * as vscode from 'vscode';
 import { NodeDependenciesProvider } from './nodeDependencies';
 
 export function activate(context: vscode.ExtensionContext) {
-    const nodeDependenciesProvider = new NodeDependenciesProvider(vscode.workspace.rootPath);
+    const rootPath = (vscode.workspace.workspaceFolders && (vscode.workspace.workspaceFolders.length > 0))
+		? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
+    const nodeDependenciesProvider = new NodeDependenciesProvider(rootPath);
     vscode.window.registerTreeDataProvider('nodeDependencies', nodeDependenciesProvider);
     vscode.commands.registerCommand('nodeDependencies.refreshEntry', () => nodeDependenciesProvider.refresh());
 }
@@ -263,15 +269,14 @@ In the `contributes` section of your `package.json`, add:
 
 ## Activation
 
-It is important that your extension is activated only when user needs the functionality that your extension provides. In this case, you should consider activating your extension when the user starts using the view. VS Code emits an activationEvent [onView:${viewId}](/api/references/activation-events#onView) (`onView:nodeDependencies` for the example above) when the user opens the view.
+It is important that your extension is activated only when user needs the functionality that your extension provides. In this case, you should consider activating your extension only when the user starts using the view. VS Code automatically does this for you when your extension declares a view contribution. VS Code emits an activationEvent [onView:${viewId}](/api/references/activation-events#onView) (`onView:nodeDependencies` for the example above) when the user opens the view.
 
-You can register to this activation event in `package.json` and VS Code will activate your extension on this event:
-
-```json
-"activationEvents": [
-        "onView:nodeDependencies",
-],
-```
+> **Note**: For VS Code versions prior to 1.74.0, you must explicitly register this activation event in `package.json` for VS Code to activate your extension on this view:
+>```json
+>"activationEvents": [
+>        "onView:nodeDependencies",
+>],
+>```
 
 ## View Container
 
@@ -283,7 +288,7 @@ To contribute a View Container, you should first register it using [contributes.
 
 You have to specify the following required fields:
 
-- `id` - The name of the new view container you're creating.
+- `id` - The ID of the new view container you're creating.
 - `title` - The name that will show up at the top of the view container.
 - `icon` - An image that will be displayed for the view container when in the Activity Bar.
 
@@ -410,6 +415,10 @@ Examples:
 }
 ```
 
+By default, actions are ordered alphabetically. To specify a different ordering, add `@` followed by the order you want to the group. For example, `navigation@3` will cause the action to show up 3rd in the `navigation` group.
+
+You can further separate items in the `...` menu by creating different groups. These group names are arbitrary and are ordered alphabetically by group name.
+
 **Note:** If you want to show an action for specific tree items, you can do so by defining the context of a tree item using `TreeItem.contextValue` and you can specify the context value for key `viewItem` in `when` expression.
 
 Examples:
@@ -429,7 +438,7 @@ Examples:
 
 ## Welcome content
 
-If your view can be empty, or if you want to add Welcome content to another extension's empty view, you can contribute `viewsWelcome` content. An empty view is a view that has no `message` and an empty tree.
+If your view can be empty, or if you want to add Welcome content to another extension's empty view, you can contribute `viewsWelcome` content. An empty view is a view that has no `TreeView.message` and an empty tree.
 
 ```json
 "contributes": {
